@@ -10,6 +10,7 @@ You will need the following things properly installed on your computer.
 ## Installation
 
 * `git clone https://github.com/EULA-Automated-Analysis/rest-listener.git` this repository
+* `cd rest-listener`
 * `conda env create -f environment.yml`
 * Windows: `activate rest-listener` or MacOS/Linux `source activate rest-listener`
 
