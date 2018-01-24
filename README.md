@@ -6,6 +6,8 @@ You will need the following things properly installed on your computer.
 
 * [Git](https://git-scm.com/)
 * [Conda 2.7](https://www.anaconda.com/download/)
+* [Java 8](https://java.com/en/download/)
+* The C++ compiler for your system.  For MacOS, this is included in XCode via `xcode-select --install`.  For Linux systems, the package is `g++` for Debian systems and `gcc-c++` for Fedora systems.
 
 ## Installation
 
@@ -13,6 +15,9 @@ You will need the following things properly installed on your computer.
 * `cd rest-listener`
 * `conda env create -f environment.yml`
 * Windows: `activate rest-listener` or MacOS/Linux `source activate rest-listener`
+
+Install the punkt package for nltk
+* `python -c 'import nltk; nltk.download("punkt")'`
 
 
 Next, you must install python-boilerpipe.  Be sure to do this in your home directory, not the project directory.
