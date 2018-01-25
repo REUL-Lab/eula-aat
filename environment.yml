@@ -10,8 +10,11 @@ dependencies:
 - intel-openmp=2018.0.0
 - itsdangerous=0.24
 - jinja2=2.10
+- libcxx=4.0.1
+- libcxxabi=4.0.1
 - libedit=3.1
 - libffi=3.2.1
+- libgfortran=3.0.1
 - markupsafe=1.0
 - mkl=2018.0.1
 - ncurses=6.0
@@ -27,12 +30,17 @@ dependencies:
 - wheel=0.30.0
 - zlib=1.2.11
 - pip:
+  - aniso8601==2.0.0
   - beautifulsoup4==4.6.0
+  - boilerpipe==1.3.0.0
   - chardet==3.0.4
+  - flask-restful==0.3.6
   - jpype1==0.6.2
   - justext==2.2.0
   - lxml==4.1.1
   - nltk==3.2.5
   - pyphen==0.9.4
+  - pytz==2017.3
   - readabilitycalculator==0.2.36
   - six==1.11.0
+
