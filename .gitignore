@@ -106,6 +106,6 @@ venv.bak/
 # OSX .DS_Store
 .DS_Store
 
-Pycharm
+# Pycharm
 .idea/
 *.iml
