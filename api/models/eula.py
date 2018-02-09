@@ -22,7 +22,7 @@ class EULA:
 
     """
 
-    def __init__(self, URL):
-        self.URL = URL
-        self.text = "text generation function"
+    def __init__(self, document, text):
+        self.document = document
+        self.text = text
         self.render = None ## page render function
