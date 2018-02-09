@@ -1,16 +1,17 @@
-""" Contains the Substantive category sum and the sub heuristics
+""" Contains the Procedural category sum and the sub heuristics
 """
 
 from category import Category
 from heuristic import Heuristic
 
-from heuristics.plainlanguage import PlainLanguage
+from heuristics.mobileaccessibility import MobileAccessibility
+from heuristics.mobilereadability import MobileReadability
 
-class Substantive(Category):
+class Procedural(Category):
 
-    
     def evaluate(self, input):
-        heuristics_to_eval = [PlainLanguage]
+
+        heuristics_to_eval = [MobileAccessibility, MobileReadability]
 
         weighted_score = 0
         heuristic_scores = dict((heur.__name__, heur().score(input)) for heur in heuristics_to_eval)

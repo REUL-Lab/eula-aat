@@ -10,7 +10,7 @@ class EULA:
     A EULA
 
     Note:
-        The render of a page should be done inside of this class.  The input sources should only provide the URL.
+        The page of a EULA should be done inside of this class.  The input sources should only provide the URL/File.
 
     Args:
         URL: the accessible URL for a EULA.  If the user uploads a PDF, this should be the temp stored html-ized version of that PDF
@@ -18,14 +18,11 @@ class EULA:
     Attributes:
         URL: the URL passed in during the constructor
         text: the parsed text of the EULA, containing no formatting and ASCII format text only
-        page: the page rendered via chrome-headless
+        render: the page rendered via chrome-headless
 
     """
 
     def __init__(self, URL):
         self.URL = URL
         self.text = "text generation function"
-        self.page = None ## Page render function
-
-    def evaluate(self):
-        pass
+        self.render = None ## page render function

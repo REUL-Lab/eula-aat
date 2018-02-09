@@ -1,10 +1,10 @@
 from flask import Flask
 from flask_restful import reqparse, Resource
 from common import auth
-from models import eula, substantive
+from models import eula, formal, substantive, procedural
 
 class Fetch(Resource):
-    method_decorators = [auth.authenticate]
+    # method_decorators = [auth.authenticate]
 
     def post(self):
         parser = reqparse.RequestParser()
@@ -14,12 +14,17 @@ class Fetch(Resource):
 
         uploaded_eula = eula.EULA(vals['url'])
 
+        overall_score = 0
+        categories = [formal.Formal, procedural.Procedural, substantive.Substantive]
 
-        return {'substantive': substantive.evaluate(uploaded_eula), 'url': vals['url']}
+        return {
+            'overall_score': overall_score,
+            'categories': dict((cat.__name__, cat().evaluate(uploaded_eula)) for cat in categories)
+        }
 
 
 class Upload(Resource):
-    method_decorators = [auth.authenticate]
+    # method_decorators = [auth.authenticate]
 
     def post(self):
         parser = reqparse.RequestParser()
