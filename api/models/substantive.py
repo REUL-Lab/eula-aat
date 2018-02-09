@@ -4,13 +4,13 @@
 from category import Category
 from heuristic import Heuristic
 
-from heuristics.plainlanguage import PlainLanguage
+from heuristics import *
 
 class Substantive(Category):
 
     
     def evaluate(self, input):
-        heuristics_to_eval = [PlainLanguage]
+        heuristics_to_eval = [plainlanguage.PlainLanguage]
 
         weighted_score = 0
         heuristic_scores = dict((heur.__name__, heur().score(input)) for heur in heuristics_to_eval)

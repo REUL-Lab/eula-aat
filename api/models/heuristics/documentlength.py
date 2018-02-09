@@ -5,7 +5,7 @@ from readcalc import readcalc
 class DocumentLength(Heuristic):
     def score(self, input):
         text = input.text
-        calc = readcalc.ReadCalc(text)
+        calc = readcalc.ReadCalc(text, preprocesshtml='boilerpipe')
         words = len(calc.get_words())
 
         if words < 1200:

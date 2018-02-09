@@ -6,7 +6,7 @@ class PlainLanguage(Heuristic):
 
         text = input.text
 
-        calc = readcalc.ReadCalc(text)
+        calc = readcalc.ReadCalc(text, preprocesshtml='boilerpipe')
         grade = calc.get_flesch_kincaid_grade_level()
 
         if grade < 8:
@@ -18,4 +18,4 @@ class PlainLanguage(Heuristic):
         else:
             score = 0
 
-        return {'score': score, 'max': 4}
+        return {'score': score, 'max': 4, 'readinglevel': grade}

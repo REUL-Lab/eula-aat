@@ -4,15 +4,12 @@
 from category import Category
 from heuristic import Heuristic
 
-
-from heuristics.typeconventions import TypeConventions
-from heuristics.easeofnavigation import EaseOfNavigation
-from heuristics.documentlength import DocumentLength
+from heuristics import *
 
 class Formal(Category):
 
     def evaluate(self, input):
-        heuristics_to_eval = [TypeConventions, EaseOfNavigation, DocumentLength]
+        heuristics_to_eval = [typeconventions.TypeConventions, easeofnavigation.EaseOfNavigation, documentlength.DocumentLength]
         
         weighted_score = 0
         heuristic_scores = dict((heur.__name__, heur().score(input)) for heur in heuristics_to_eval)

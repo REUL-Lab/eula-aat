@@ -4,14 +4,13 @@
 from category import Category
 from heuristic import Heuristic
 
-from heuristics.mobileaccessibility import MobileAccessibility
-from heuristics.mobilereadability import MobileReadability
+from heuristics import *
 
 class Procedural(Category):
 
     def evaluate(self, input):
 
-        heuristics_to_eval = [MobileAccessibility, MobileReadability]
+        heuristics_to_eval = [mobileaccessibility.MobileAccessibility, mobilereadability.MobileReadability]
 
         weighted_score = 0
         heuristic_scores = dict((heur.__name__, heur().score(input)) for heur in heuristics_to_eval)
