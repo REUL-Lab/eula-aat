@@ -7,6 +7,8 @@ You will need the following things properly installed on your computer.
 * [Git](https://git-scm.com/)
 * [Conda 2.7](https://www.anaconda.com/download/)
 * [Java 8](https://java.com/en/download/)
+* [Google Chrome](https://google.com/chrome)
+* [The google chromedriver for your system](https://sites.google.com/a/chromium.org/chromedriver/downloads), and available in your path.
 * The C++ compiler for your system.  For MacOS, this is included in XCode via `xcode-select --install`.  For Linux systems, the package is `g++` for Debian systems and `gcc-c++` for Fedora systems.
 
 ## Installation

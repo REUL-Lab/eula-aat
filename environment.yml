@@ -39,4 +39,5 @@ dependencies:
   - pytz==2017.3
   - readabilitycalculator==0.2.36
   - six==1.11.0
+  - selenium==3.9.0
 

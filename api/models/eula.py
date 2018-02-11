@@ -22,7 +22,7 @@ class EULA:
 
     """
 
-    def __init__(self, document, text):
-        self.document = document
+    def __init__(self, text, desktop_render=None, mobile_render=None):
         self.text = text
-        self.render = None ## page render function
+        self.desktop_render = desktop_render
+        self.mobile_render = mobile_render
