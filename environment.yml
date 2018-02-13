@@ -40,4 +40,5 @@ dependencies:
   - readabilitycalculator==0.2.36
   - six==1.11.0
   - selenium==3.9.0
+  - requests==2.18.4
 

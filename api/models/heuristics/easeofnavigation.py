@@ -2,5 +2,5 @@ from models.heuristic import Heuristic
 
 
 class EaseOfNavigation(Heuristic):
-    def score(self, input):
-        return {'score': 5, 'max': 5}
+    def score(self, eula):
+        return {'score': -1, 'max': 4, 'reason': 'Not implemented'}

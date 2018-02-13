@@ -4,5 +4,5 @@ from models.heuristic import Heuristic
 class MobileAccessibility(Heuristic):
     def score(self, eula):
         if eula.mobile_render is None:
-            return {'score': 'N/A', 'max': 5, 'reason': 'no render'}
-        return {'score': 5, 'max': 5}
+            return {'score': -1, 'max': 5, 'reason': 'no render'}
+        return {'score': -1, 'max': 4, 'reason': 'Not implemented'}

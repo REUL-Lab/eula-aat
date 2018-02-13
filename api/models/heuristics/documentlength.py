@@ -3,8 +3,8 @@ from readcalc import readcalc
 
 # Ensure reasonable document length for target user
 class DocumentLength(Heuristic):
-    def score(self, input):
-        text = input.text
+    def score(self, eula):
+        text = eula.text
         calc = readcalc.ReadCalc(text, preprocesshtml='boilerpipe')
         words = len(calc.get_words())
 
