@@ -21,19 +21,29 @@ class Fetch(Resource):
         except requests.ConnectionError as e:
             return {'error': 'Could not fetch from URL - Error {0}'.format(e)}
 
-        text = fetcher.extract_text()
-        desktop = fetcher.desktop_render()
-        mobile = fetcher.mobile_render()
-        html = fetcher.get_html()
+        # Make sure driver variable is declared because we *CAN NOT* leave the driver open
+        driver = None
 
-        uploaded_eula = eula.EULA(text, html=html, desktop_render=desktop, mobile_render=mobile)
+        try:
+            text = fetcher.extract_text()
+            desktop = fetcher.desktop_render()
+            mobile = fetcher.mobile_render()
+            html = fetcher.get_html()
+            driver = fetcher.get_driver()
 
-        categories = [formal.Formal, procedural.Procedural, substantive.Substantive]
-        cat_scores = dict((cat.__name__.lower(), cat().evaluate(uploaded_eula)) for cat in categories)
+            uploaded_eula = eula.EULA(text, html=html, driver=driver, desktop_render=desktop, mobile_render=mobile)
 
-        # Calculate overall score by summing the weighted score of each category then dividing by number of categories
-        # i.e. simple average
-        overall_score = int(sum(map(lambda x: x['weighted_score'], cat_scores.values())) / len(cat_scores))
+            categories = [formal.Formal, procedural.Procedural, substantive.Substantive]
+            cat_scores = dict((cat.__name__.lower(), cat().evaluate(uploaded_eula)) for cat in categories)
+
+            # Calculate overall score by summing the weighted score of each category then dividing by number of categories
+            # i.e. simple average
+            overall_score = int(sum(map(lambda x: x['weighted_score'], cat_scores.values())) / len(cat_scores))
+        finally:
+            # Since we need the driver for a few heuristics, always make sure we close it or we will run out of memory
+            #   giving it all to chrome
+            if driver is not None:
+                driver.quit()
 
         return {
             'overall_score': overall_score,

@@ -54,8 +54,8 @@ class FetchService:
         extractor = Extractor(extractor='ArticleExtractor', html=self.__html)
         self.__text = extractor.getText()
 
-        # Quit desktop view
-        driver.quit()
+        # We need to return this driver in order for heuristics to analyse text
+        self.__driver = driver
 
         # Start chrome for mobile view
         mobile_emulation = {"deviceMetrics": { "width": mobile_width, "height": mobile_height, "pixelRatio": mobile_pixel_ratio },
@@ -78,6 +78,9 @@ class FetchService:
 
     def mobile_render(self):
         return self.__mobile_render
+
+    def get_driver(self):
+        return self.__driver
 
     def get_html(self):
         return self.__html

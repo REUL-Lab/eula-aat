@@ -1,11 +1,12 @@
 from models.heuristic import Heuristic
 from readcalc import readcalc
 
+# Formal 4
 # Ensure reasonable document length for target user
 class DocumentLength(Heuristic):
     def score(self, eula):
         text = eula.text
-        calc = readcalc.ReadCalc(text, preprocesshtml='boilerpipe')
+        calc = readcalc.ReadCalc(text)
         words = len(calc.get_words())
 
         if words < 1200:
