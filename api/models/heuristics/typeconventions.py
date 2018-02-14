@@ -1,5 +1,6 @@
 from models.heuristic import Heuristic
-from readcalc import readcalc
+from nltk import tokenize
+import re
 
 # Ratios do not have to add to any number, but are relative to eachother
 grade_ratios = {
@@ -25,15 +26,21 @@ headings_grading = {
     4: (lambda x: x >= .7),               # Almost no mixed headings
 }
 
+def get_sentences(self):
+    """
+        Returns a list of all sentences found in the text.
+    """
+
 # Formal 1
 # Standardize type conventions throughout document for clarity.
 class TypeConventions(Heuristic):
     def score(self, eula):
+        sentences = []
+        # Remove sentences containing only punctuation:
+        for sentence in tokenize.sent_tokenize(eula.text):
+            if re.sub("\W", "", sentence):
+                sentences.append(sentence)
 
-        text = eula.text
-        calc = readcalc.ReadCalc(text)
-
-        sentences = calc.get_sentences()
         # Count the number of sentences which filter as uppercase
         caps_sentences = filter(lambda x: x.isupper(), sentences)
         # Convert to float before division to preserve decimal
@@ -107,7 +114,7 @@ class TypeConventions(Heuristic):
 
         # If we couldn't identify headings, don't detract from it
         heur_numerator = heur_numerator + (headings_score * grade_ratios['headings'] if headings_score != -1 else 0)
-        heur_denom = heur_numerator + (max(headings_grading.keys()) * grade_ratios['headings']) if headings_score != -1 else 0
+        heur_denom = heur_denom + ((max(headings_grading.keys()) * grade_ratios['headings']) if headings_score != -1 else 0)
 
         # Set the score as an int in [0,4]
         # Convert numerator to float in order to preserve decimal for rounding
