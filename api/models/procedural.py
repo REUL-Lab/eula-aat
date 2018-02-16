@@ -10,8 +10,9 @@ class Procedural(Category):
 
     def evaluate(self, eula):
         # List of heuristics to evaluate, and the relative weighting of each
-        heuristics_to_eval = [mobileaccessibility.MobileAccessibility, mobilereadability.MobileReadability]
-        heuristic_weights = {'mobileaccessibility': 2, 'mobilereadability': 5}
+        heuristics_to_eval = [mobileaccessibility.MobileAccessibility, notifychangesinpolicy.NotifyChangesInPolicy,
+                              mobilereadability.MobileReadability]
+        heuristic_weights = {'mobileaccessibility': 2, 'mobilereadability': 5, 'notifychangesinpolicy': 3}
 
         # Iteratively evaluate each heuristic in the above list
         heuristic_scores = dict((heur.__name__.lower(), heur().score(eula)) for heur in heuristics_to_eval)
