@@ -6,7 +6,7 @@ class PlainLanguage(Heuristic):
 
         text = eula.text
 
-        calc = readcalc.ReadCalc(text, preprocesshtml='boilerpipe')
+        calc = readcalc.ReadCalc(text)
         grade = calc.get_flesch_kincaid_grade_level()
 
         if grade < 8:
