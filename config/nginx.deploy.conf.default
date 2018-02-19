@@ -1,0 +1,45 @@
+worker_processes 1;
+
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+#pid logs/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    server {
+        listen      80;
+        server_name localhost;
+        charset     utf-8;
+        client_max_body_size 75M;
+
+        # Hand API to the flask process, running under uwsgi
+        location /api/ { try_files $uri @eula-aat; }
+        location @eula-aat {
+            include uwsgi_params;
+            uwsgi_pass unix://@CONTENTROOT@/eula-aat_uwsgi.sock;
+        }
+
+        # Hand static calls to the compiled ember
+        location / {
+            root @CONTENTROOT@/eula-aat/app/dist;
+        }
+    }
+}

@@ -1,0 +1,68 @@
+<div class='row'>
+  <div class='col-sm-8'>
+    <h1>EULA Automated Analysis Tool</h1>
+    <br/>
+    <form id='url-form'>
+      <div class='form-group'>
+        <label for='url'>URL to EULA</label>
+        <div class='input-group'>
+          <input class='form-control' name='url' type='url' placeholder='http://mywebsite.com/eula' required>
+          <span class="input-group-btn">
+            {{#link-to 'processing.eula' class='btn btn-success inline-go-btn'}}
+              GO
+            {{/link-to}}
+          </span>
+        </div>
+      </div>
+      <br/>
+      <p>
+        <b>This Is a Link To:</b>
+      </p>
+      <div class='radio'>
+        <label>
+          <input type='radio' name='url_type' value='eula'/>
+          A EULA
+        </label>
+      </div>
+      <div class='radio'>
+        <label>
+          <input type='radio' name='url_type' value='eula'/>
+          Home Page
+        </label>
+      </div>
+    </form>
+    <br/>
+    <div class='row'>
+      <div class='col-xs-4 col-sm-5'>
+        <hr/>
+      </div>
+      <div class='col-xs-4 col-sm-2 text-center'>
+        <span class='text-divider'>OR</span>
+      </div>
+      <div class='col-xs-4 col-sm-5'>
+        <hr/>
+      </div>
+    </div>
+    <br/>
+    <form id='upload-form'>
+      <div class="form-group">
+        <label for='file'>Upload a EULA</label>
+        <input type='file' name='file' required>
+      </div>
+      <div>
+        {{#link-to 'processing.eula' class='btn btn-success pull-right'}}
+          Upload File
+        {{/link-to}}
+      </div>
+    </form>
+  </div>
+  <div class='col-sm-3 col-sm-offset-1 how-to-use'>
+    <h4 class='text-center'>How to Use This Tool</h4>
+    <br/>
+    <p>The first option allows you to specify an online link. This can either be a link to the home page of the site you wish to analyze or the EULA itself.</p>
+    <br/>
+    <br/>
+    <br/>
+    <p>The 2nd option allows you to upload a local EULA in a pdf, doc, docx, or txt file. Your document will be analyzed but not remain on the server.</p>
+  </div>
+</div>

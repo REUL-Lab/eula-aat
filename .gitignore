@@ -109,3 +109,6 @@ venv.bak/
 # Pycharm
 .idea/
 *.iml
+
+# Socket objects for uwsgi
+*.sock
