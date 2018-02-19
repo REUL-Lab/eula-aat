@@ -25,7 +25,7 @@ class EaseOfNavigation(Heuristic):
         # find index of indicator text
         for ind in tocindicators:
             if index_of_table < 0:
-                index_of_table = text_first_1000.find('TABLE OF CONTENTS')
+                index_of_table = text_first_1000.find(ind)
             else:
                 break
 
