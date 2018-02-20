@@ -109,3 +109,7 @@ venv.bak/
 # Pycharm
 .idea/
 *.iml
+
+# Anaconda project for env-vars etc
+anaconda-project-local.yml
+anaconda-project.yml

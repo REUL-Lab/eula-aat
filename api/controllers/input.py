@@ -27,11 +27,12 @@ class Fetch(Resource):
         try:
             text = fetcher.extract_text()
             desktop = fetcher.desktop_render()
+            url = fetcher.url
             mobile = fetcher.mobile_render()
             html = fetcher.get_html()
             driver = fetcher.get_driver()
 
-            uploaded_eula = eula.EULA(text, html=html, driver=driver, desktop_render=desktop, mobile_render=mobile)
+            uploaded_eula = eula.EULA(text, url=url, html=html, driver=driver, desktop_render=desktop, mobile_render=mobile)
 
             categories = [formal.Formal, procedural.Procedural, substantive.Substantive]
             cat_scores = dict((cat.__name__.lower(), cat().evaluate(uploaded_eula)) for cat in categories)
