@@ -19,17 +19,12 @@ caps_grading = {
 
 # Count of headings to consider in calculation (if it shows up less than this, don't count it)
 headings_threshhold = 3
-# Headings rading is based upon the relative frequency of the most common heading
+# Headings grading is based upon the relative frequency of the most common heading
 headings_grading = {
     0: (lambda x: x >= 0 and x < 0.5),    # Very mixed headings
     2: (lambda x: x >= 0.5 and x < 0.7),  # Mixed headings
     4: (lambda x: x >= .7),               # Almost no mixed headings
 }
-
-def get_sentences(self):
-    """
-        Returns a list of all sentences found in the text.
-    """
 
 # Formal 1
 # Standardize type conventions throughout document for clarity.
@@ -101,7 +96,7 @@ class TypeConventions(Heuristic):
                 font_family = elements[0].value_of_css_property('font-family')
                 # Strip the family into pieces
                 fonts = map(lambda x: x.lower().strip(), font_family.split(','))
-                # Serif = "True" if in family strong, "False" if not
+                # Serif = "True" if in family string, "False" if not
                 serif = str('serif' in fonts)
 
         # We always have the score for caps since it's in text.
