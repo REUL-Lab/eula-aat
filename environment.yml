@@ -1,6 +1,7 @@
-name: rest-listener
+name: eula-aat
 channels:
 - anaconda
+- conda-forge
 - defaults
 dependencies:
 - ca-certificates=2017.08.26
@@ -26,11 +27,20 @@ dependencies:
 - werkzeug=0.14.1
 - wheel=0.30.0
 - zlib=1.2.11
+- icu=58.2
+- jansson=2.7
+- libiconv=1.15
+- libxml2=2.9.7
+- pcre=8.39
+- uwsgi=2.0.16
+- xz=5.2.3
+- yaml=0.1.7
 - pip:
   - aniso8601==2.0.0
   - beautifulsoup4==4.6.0
   - chardet==3.0.4
   - flask-restful==0.3.6
+  - idna==2.6
   - jpype1==0.6.2
   - justext==2.2.0
   - lxml==4.1.1
@@ -38,7 +48,7 @@ dependencies:
   - pyphen==0.9.4
   - pytz==2017.3
   - readabilitycalculator==0.2.36
-  - six==1.11.0
-  - selenium==3.9.0
   - requests==2.18.4
-
+  - selenium==3.9.0
+  - six==1.11.0
+  - urllib3==1.22

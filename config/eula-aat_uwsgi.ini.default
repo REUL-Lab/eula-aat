@@ -1,0 +1,23 @@
+[uwsgi]
+
+#application's base folder
+base = @CONTENTROOT@/eula-aat
+
+#python module to import
+app = app
+module = %(app)
+
+#path of modules
+pythonpath = %(base)/api
+
+#socket file's location
+socket = @CONTENTROOT@/%n.sock
+
+#permissions for the socket file
+chmod-socket = 660
+
+#the variable that holds a flask application inside the module imported at line #6
+callable = app
+
+#location of log files
+logto = @LOGROOT@/uwsgi/%n.log
