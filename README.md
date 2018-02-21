@@ -1,4 +1,4 @@
-# eula-aat
+# EULA Automated Analysis Tool
 
 ## Prerequisites
 
