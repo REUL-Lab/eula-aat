@@ -1,0 +1,132 @@
+@import "ember-bootstrap/bootstrap";
+
+header {
+  background: #95b6d1;
+  padding: 30px 72px 22px;
+}
+
+nav {
+  float: right;
+  margin: 25px 0 0 auto;
+  text-align: right;
+
+  a {
+    color: #fff;
+    font-family: Hind, Avenir, Helvetica, arial;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 1.4px;
+    margin: 10px 0 10px 36px;
+    opacity: 0.7;
+    padding: 15px 0;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: opacity 0.25s ease;
+
+    &:hover {
+      color: #fff;
+      opacity: 1;
+      text-decoration: none;
+    }
+  }
+}
+
+.app-container {
+  margin-top: 50px;
+}
+
+.inline-go-btn {
+  height: 34px;
+}
+
+.text-divider {
+  color: #ccc;
+  display: block;
+  margin: 10px 0;
+}
+
+.how-to-use {
+  border-left: 1px solid #ddd;
+  margin-top: 10%;
+}
+
+.score-row {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+.score-list {
+  flex: 1 0 auto;
+  max-width: calc(80% - 5px);
+  height: 80px;
+}
+
+.score-header-top {
+  margin-top: 0px;
+}
+
+.score-readmore {
+  margin-top: 12px;
+}
+
+.score {
+  border-radius: 5px;
+  color: #fff;
+  display: block;
+  flex: 0 0 80px;
+  font-size: 32px;
+  font-weight: 600;
+  height: 80px;
+  padding-top: 15px;
+  text-align: center;
+  text-transform: uppercase;
+  width: 80px;
+
+  &[score='a+'] {
+    background: darkgreen;
+  }
+
+  &[score='a'] {
+    background: green;
+  }
+
+  &[score='b+'] {
+    background: limegreen;
+  }
+
+  &[score='b'] {
+    background: gold;
+  }
+
+  &[score='c+'] {
+    background: darkgoldenrod;
+  }
+
+  &[score='c'] {
+    background: orange;
+  }
+
+  &[score='d+'] {
+    background: darkorange;
+  }
+
+  &[score='d'] {
+    background: darkred;
+  }
+
+  &[score='f'] {
+    background: red;
+  }
+
+  &[score='nr'] {
+    background: darkgrey;
+  }
+}
+
+.copyright-text {
+  position: absolute;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
