@@ -112,3 +112,7 @@ venv.bak/
 
 # Socket objects for uwsgi
 *.sock
+
+# Anaconda project for env-vars etc
+anaconda-project-local.yml
+anaconda-project.yml

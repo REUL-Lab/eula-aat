@@ -35,7 +35,6 @@ class Fetch(Resource):
             # Add cleanup tasks for both instances
             cleanup_tasks[desk_driver] = desk_driver.quit
             cleanup_tasks[mobile_driver] = mobile_driver.quit
-
             fetched_eula = eula.EULA(text, url=url, html=html, desk_driver=desk_driver, mobile_driver=mobile_driver)
 
             res = fetched_eula.analyze()
