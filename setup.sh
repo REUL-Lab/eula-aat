@@ -31,7 +31,7 @@ read -p "name for nginx config file [${de_nginx_conf_name}]" nginx_conf_name
 nginx_conf_name=${nginx_conf_name:-$de_nginx_conf_name}
 
 nginx_conf="${nginx_loc}/${nginx_conf_name}"
-cp "./config/nginx.${env_type}.conf.default" $nginx_conf
+cp "./config.default/nginx.${env_type}.conf" $nginx_conf
 
 read -p "directory for www directory [${de_www}]: " www
 www=${www:-$de_www}
@@ -46,14 +46,21 @@ if [ ! -d "$www" ]; then
 fi
 
 if [ ! -d "$log" ]; then
+    mkdir "${log}"
+fi
+
+if [ ! -d "${log}/nginx" ]; then
     mkdir "${log}/nginx"
+fi
+
+if [ ! -d "${log}/uwsgi" ]; then
     mkdir "${log}/uwsgi"
 fi
 
 if [ "$env_type" == "deploy" ]; then
     # Make a copy of the ini which will be used to serve in production
     uwsgi_ini="${www}/eula-aat_uwsgi.ini" 
-    cp "./config/eula-aat_uwsgi.ini.default" "${uwsgi_ini}"
+    cp "./config.default/eula-aat_uwsgi.ini" "${uwsgi_ini}"
     # Replace the content and log roots for our config files (test doesn't need these since it is port linked)
     sed -i '' "s:@CONTENTROOT@:${www}:g" $nginx_conf
     sed -i '' "s:@CONTENTROOT@:${www}:g" $uwsgi_ini
