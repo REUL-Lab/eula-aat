@@ -1,10 +1,10 @@
 #!/usr/bin/python
-
+import os
 from flask import Flask, Blueprint
 from flask_restful import Resource, Api, url_for
 from common import auth
+
 from controllers import input, status
-import os
 
 app = Flask(__name__)
 api = Api(app)

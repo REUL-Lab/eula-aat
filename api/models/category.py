@@ -7,8 +7,24 @@ from multiprocessing import BoundedSemaphore, Process, Manager
 class Category:
 
     @abstractmethod
-    def evaluate(self, eula, running, ret_dict):
-        """Primary method in the Heuristics class.  Returns a dict of scores for each part of the heuristic
+    def evaluate(self, eula, thread_semaphore, ret_dict):
+        """Primary method in the Heuristics class. Proxy for threaded method below
+
+        Args:
+            eula: The EULA object corresponding to an upload or query
+            thread_semaphore: the semaphore to be released when we are done processing
+            ret_dict: the thread-safe dictionary 
+
+        Examples:
+            >>> Substantive.score(my_eula, semaphore, ret_dict)
+            >>> print(ret_dict['substantive'])
+            {'Weighted': 1.5, 'PlainLanguage': {...}, 'DataCollection': {...}, 'GagwrapClauses': {...}}
+
+        """
+        pass
+
+    def parallel_evaluate(self, eula, heuristics, weights, thread_semaphore):
+        """Thread support
 
         Args:
             eula: The EULA object corresponding to an upload or query
@@ -23,24 +39,20 @@ class Category:
             {'Weighted': 1.5, 'PlainLanguage': 5, 'DataCollection': 0, 'GagwrapClauses': 1}
 
         """
-        pass
 
-    def parallel_evaluate(self, eula, heuristics, weights, running):
         # Create our own manager for our subprocesses
         ret_vars = Manager().dict()
 
         # Create a process declaration for each category in the above array
         processes = []
         for heur in heuristics:
-            # Allocate a space in the dictionary for their return values
-            ret_vars[heur.__name__.lower()] = None
             # Describe the process, giving the eula
-            processes.append(Process(target=heur().parallel_score, args=(eula, running, ret_vars)))
+            processes.append(Process(target=heur().parallel_score, args=(eula, thread_semaphore, ret_vars)))
 
         # Start processes in order of above array
         for process in processes:
             # Aquire semaphore before starting
-            running.acquire()
+            thread_semaphore.acquire()
             # Start process once sempahore aquired
             process.start()
 

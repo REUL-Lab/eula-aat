@@ -3,7 +3,6 @@
 
 from category import Category
 from heuristic import Heuristic
-
 from heuristics import *
 
 class Formal(Category):
