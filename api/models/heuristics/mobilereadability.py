@@ -80,4 +80,3 @@ class MobileReadability(Heuristic):
             return {'score': -1, 'max': 4, 'reason': 'Could not connect to Google APIs'}
         except KeyError:
             return {'score': -1, 'max': 4, 'reason': 'Error parsing Google API Result'}
-
