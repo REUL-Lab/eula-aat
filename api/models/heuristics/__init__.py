@@ -1,1 +1,1 @@
-__all__ = ["documentlength", "easeofnavigation", "mobileaccessibility", "mobilereadability", "plainlanguage", "typeconventions"]
+__all__ = ["documentlength", "easeofnavigation", "mobileaccessibility", "mobilereadability", "plainlanguage", "typeconventions", "eularetention"]
