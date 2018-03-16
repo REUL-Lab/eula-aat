@@ -73,7 +73,7 @@ class TypeConventions(Heuristic):
 
             headings = {'counts': headings_counts, 'score': headings_score}
 
-        if eula.driver is None:
+        if eula.desk_driver is None:
             serif = 'N/A'
         else:
             # Start as none in case we can't find it
@@ -83,7 +83,7 @@ class TypeConventions(Heuristic):
                 # Find a sentence in the identified document that exists in the DOM
                 search = (u"//*[contains(text(), '{0}')]").format(sentence)
                 # Grab elements
-                elements = eula.driver.find_elements_by_xpath(search)
+                elements = eula.desk_driver.find_elements_by_xpath(search)
                 # Found a sentence in the DOM
                 if len(elements) > 0:
                     break
