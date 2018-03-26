@@ -10,6 +10,6 @@ class Procedural(Category):
     def evaluate(self, eula, thread_semaphore, ret_vars):
         # List of heuristics to evaluate, and the relative weighting of each
         heuristics_to_eval = [mobileaccessibility.MobileAccessibility, mobilereadability.MobileReadability, eularetention.EulaRetention]
-        heuristic_weights = {'mobileaccessibility': 2, 'mobilereadability': 5}
+        heuristic_weights = {'mobileaccessibility': 2, 'mobilereadability': 5, 'eularetention': 1}
 
         ret_vars['procedural'] = self.parallel_evaluate(eula, heuristics_to_eval, heuristic_weights, thread_semaphore)
