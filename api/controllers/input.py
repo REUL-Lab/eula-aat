@@ -46,12 +46,8 @@ class Fetch(Resource):
                 cleanup()
 
 
-        # Store results in mongodb
-        # with app.app_context():
+        # Store results in mongodb and return the identifier for lookup
         return str(db.get_db().results.insert_one(res).inserted_id)
-
-        # Return ID of mongodb data instance
-        # return res
 
 
 class Upload(Resource):
@@ -71,5 +67,5 @@ class Upload(Resource):
 
         res = uploaded_eula.analyze()
 
-        # Store results in mongodb
+        # Store results in mongodb and return the identifier for lookup
         return str(db.get_db().results.insert_one(res).inserted_id)

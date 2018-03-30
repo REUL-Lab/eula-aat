@@ -16,12 +16,7 @@ app.config['MONGO_PORT'] = 27017
 # app.config['MONGO_USERNAME'] = 'api'
 # app.config['MONGODB_PASSWORD'] = os.environ['mongodb_pw']
 
-# db = PyMongo(app)
-
 api = Api(app)
-
-# with app.app_context():
-#     g._database = db
 
 api.add_resource(input.Upload, '/api/eula/upload')
 api.add_resource(input.Fetch, '/api/eula/fetch')
