@@ -2,6 +2,7 @@
 import os
 
 from flask import Flask, Blueprint, g
+from flask_cors import CORS
 from flask_restful import Resource, Api, url_for
 from flask_pymongo import PyMongo
 from common import auth
@@ -15,6 +16,8 @@ app.config['MONGO_HOST'] = 'localhost'
 app.config['MONGO_PORT'] = 27017
 # app.config['MONGO_USERNAME'] = 'api'
 # app.config['MONGODB_PASSWORD'] = os.environ['mongodb_pw']
+app = Flask(__name__)
+CORS(app)
 
 api = Api(app)
 
