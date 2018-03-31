@@ -1,11 +1,11 @@
 import os
 import requests
 import time
-from flask import Flask
+from flask import Flask, g
 from flask_restful import reqparse, Resource
 from werkzeug.datastructures import FileStorage
 
-from common import auth, webfetch
+from common import auth, db, webfetch
 from models import eula, formal, substantive, procedural
 
 class Fetch(Resource):
@@ -45,7 +45,9 @@ class Fetch(Resource):
             for item, cleanup in cleanup_tasks.iteritems():
                 cleanup()
 
-        return res
+
+        # Store results in mongodb and return the identifier for lookup
+        return str(db.get_db().results.insert_one(res).inserted_id)
 
 
 class Upload(Resource):
@@ -65,4 +67,5 @@ class Upload(Resource):
 
         res = uploaded_eula.analyze()
 
-        return res
+        # Store results in mongodb and return the identifier for lookup
+        return str(db.get_db().results.insert_one(res).inserted_id)
