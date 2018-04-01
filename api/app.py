@@ -7,7 +7,7 @@ from flask_restful import Resource, Api, url_for
 from flask_pymongo import PyMongo
 from common import auth
 
-from controllers import input, status, results, lookup
+from controllers import input, status, results
 
 app = Flask(__name__)
 
