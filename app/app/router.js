@@ -7,9 +7,12 @@ const Router = EmberRouter.extend({
 });
 
 Router.map(function() {
-  this.route('home', {path: '/'});
-  this.route('analysis');
-  this.route('processing', {path: '/processing'}, function() {
+  this.route('home', { path: '/' });
+  this.route('analysis', function() {
+    this.route('document-length');
+    this.route('ease-of-navigation');
+  });
+  this.route('processing', function() {
     this.route('download');
     this.route('eula');
     this.route('pdf');

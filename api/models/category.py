@@ -13,7 +13,7 @@ class Category:
         Args:
             eula: The EULA object corresponding to an upload or query
             thread_semaphore: the semaphore to be released when we are done processing
-            ret_dict: the thread-safe dictionary 
+            ret_dict: the thread-safe dictionary
 
         Examples:
             >>> Substantive.score(my_eula, semaphore, ret_dict)
@@ -62,6 +62,8 @@ class Category:
 
         # Processing is done, so convert into regular dict
         ret_vars = ret_vars.copy()
+        ret_vars_array = [v for k, v in ret_vars.items()]
+
 
         # Calculated weighted score for each return, but only if the score is valid.  Convert to float to maintain decimals until return
         weighted_scores = {k:float(v['score'])/v['max'] * weights[k] for k,v in ret_vars.iteritems() if v['score'] >= 0}
@@ -72,5 +74,5 @@ class Category:
 
         return {
             'weighted_score': weighted_score,
-            'heuristics': ret_vars
+            'heuristics': ret_vars_array
         }

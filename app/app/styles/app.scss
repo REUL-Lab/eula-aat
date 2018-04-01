@@ -82,43 +82,27 @@ nav {
   text-transform: uppercase;
   width: 80px;
 
-  &[score='a+'] {
-    background: darkgreen;
-  }
-
-  &[score='a'] {
+  &[score='A'] {
     background: green;
   }
 
-  &[score='b+'] {
-    background: limegreen;
-  }
-
-  &[score='b'] {
+  &[score='B'] {
     background: gold;
   }
 
-  &[score='c+'] {
-    background: darkgoldenrod;
-  }
-
-  &[score='c'] {
+  &[score='C'] {
     background: orange;
   }
 
-  &[score='d+'] {
-    background: darkorange;
-  }
-
-  &[score='d'] {
+  &[score='D'] {
     background: darkred;
   }
 
-  &[score='f'] {
+  &[score='F'] {
     background: red;
   }
 
-  &[score='nr'] {
+  &[score='NR'] {
     background: darkgrey;
   }
 }

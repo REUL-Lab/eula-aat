@@ -30,6 +30,10 @@ headings_grading = {
 # Standardize type conventions throughout document for clarity.
 class TypeConventions(Heuristic):
     def score(self, eula):
+        name = 'Type Conventions'
+        description = ['This heuristic analyzes the type conventions of the EULA']
+        grade = 'NR'
+        grades = ['F', 'D', 'C', 'B', 'A']
         sentences = []
         # Remove sentences containing only punctuation:
         for sentence in tokenize.sent_tokenize(eula.text):
@@ -114,9 +118,14 @@ class TypeConventions(Heuristic):
         # Set the score as an int in [0,4]
         # Convert numerator to float in order to preserve decimal for rounding
         heur_score = int(round(float(heur_numerator) / heur_denom))
-
-        return {'score': heur_score, 'max': 4,
-            'caps': caps,
-            'headings': headings,
-            'serif': serif
+        grade = grades[heur_score]
+        return {
+                'name' : name,
+                'description' : description,
+                'grade': grade,
+                'score': heur_score,
+                'max': 4,
+                'caps': caps,
+                'headings': headings,
+                'serif': serif
         }
