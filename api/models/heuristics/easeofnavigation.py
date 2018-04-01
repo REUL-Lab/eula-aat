@@ -4,7 +4,7 @@ from models.heuristic import Heuristic
 # Ensure ease of user navigation.
 class EaseOfNavigation(Heuristic):
     def score(self, eula):
-        name = 'Ease Of Navigation'
+        name = 'Ease of Navigation'
         grade = 'NR'
         description = ['this heuristic is not yet implemented']
         return {

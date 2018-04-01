@@ -1,6 +1,11 @@
 <div class='row'>
   <div class='col-sm-8'>
-    <h1>Analysis Results</h1>
+    <h1>
+      <div class='score score-overall' score='{{model.overallGrade}}'>
+        {{model.overallGrade}}
+      </div>
+      Overall Score
+    </h1>
   </div>
   <div class='col-sm-4 text-right'>
     <br/>
@@ -19,7 +24,7 @@
 <div class='panel panel-default'>
   <div class='panel-body'>
     <div class='row'>
-      {{#each model as |heuristic|}}
+      {{#each model.heuristics as |heuristic|}}
         <div class='col-sm-6'>
           <h3 class='score-header score-header-top'>{{heuristic.name}}</h3>
           <br/>
@@ -32,8 +37,7 @@
                 <li>{{bullet}}</li>
               {{/each}}
               <p class='text-left score-readmore'>
-                {{!-- {{#link-to (heuristic-path heuristic.name)}} --}}
-                {{#link-to 'analysis'}}<a>Click to Read More</a>{{/link-to}}
+                {{#link-to (heuristic-path heuristic.name)}}<a>Click to Read More</a>{{/link-to}}
               </p>
             </ul>
           </div>

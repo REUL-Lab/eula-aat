@@ -37,6 +37,7 @@ class EULA:
     def analyze(self):
         # Categories to analyse, these will be done in parallel
         categories = [formal.Formal, procedural.Procedural, substantive.Substantive]
+        grades = ['F', 'D', 'C', 'B', 'A']
 
         # Create a semaphore to limit number of running processes
         running = BoundedSemaphore(int(os.getenv('analyze_max_threads', 1)))
@@ -67,5 +68,9 @@ class EULA:
         # Calculate overall score by summing the weighted score of each category then dividing by number of categories
         # i.e. simple average
         overall_score = int(sum(map(lambda x: x['weighted_score'], ret_vars.values())) / len(ret_vars))
+        overall_grade = grades[overall_score]
 
-        return {'overall_score': overall_score, 'categories': ret_vars}
+        return {'overall_score': overall_score,
+                'categories'   : ret_vars,
+                'overall_grade': overall_grade
+                }

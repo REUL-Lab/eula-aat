@@ -11,6 +11,11 @@ Router.map(function() {
   this.route('analysis', function() {
     this.route('document-length');
     this.route('ease-of-navigation');
+    this.route('mobile-accessibility');
+    this.route('mobile-readability');
+    this.route('notify-changes-in-policy');
+    this.route('plain-language');
+    this.route('type-conventions');
   });
   this.route('processing', function() {
     this.route('download');
