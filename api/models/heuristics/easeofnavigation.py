@@ -35,12 +35,12 @@ class EaseOfNavigation(Heuristic):
 
             # find all table of contents entries and their hrefs
             link_match = re.findall('(?<=<a href="#).+?(?=")', eula.html)
-            print 'link matches', link_match
+            #print 'link matches', link_match
 
             # find targets of table of contents hyperlinks
             name_match = re.findall('(?<=<a name=").+?(?=")', eula.html)
             name_match += re.findall('(?<=<a id=").+?(?=")', eula.html)
-            print 'name matches', name_match
+            #print 'name matches', name_match
 
             toc_hyperlinked = False
             matches = 0
@@ -54,7 +54,7 @@ class EaseOfNavigation(Heuristic):
                 if found_match:
                     matches += 1
             
-            print matches, expected_matches
+            #print matches, expected_matches
             if matches > 0.75 * expected_matches:
                 toc_hyperlinked = True
                 
