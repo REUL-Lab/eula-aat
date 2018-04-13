@@ -1,10 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
 de_www="/var/www"
 de_log="/var/log"
-de_nginx_loc="/var/etc/nginx"
+de_nginx_loc="/etc/nginx"
 de_env_type="test"
 de_nginx_conf_name="nginx.conf"
+de_symlink_src=$(pwd)
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     de_www="/usr/local/var/www"
@@ -20,12 +21,6 @@ if [ ! -d "$nginx_loc" ]; then
     echo "Cannot open nginx conf directory ${nginx_loc}, make sure nginx is installed."
     exit
 fi
-
-while [[ "$env_type" != "test" && "$env_type" != "deploy" ]]
-do
-    read -p "Environment type (test/deploy): " env_type
-    env_type=${env_type:-$de_env_type}
-done
 
 read -p "name for nginx config file [${de_nginx_conf_name}]" nginx_conf_name
 nginx_conf_name=${nginx_conf_name:-$de_nginx_conf_name}
@@ -57,17 +52,41 @@ if [ ! -d "${log}/uwsgi" ]; then
     mkdir "${log}/uwsgi"
 fi
 
+while [[ "$env_type" != "test" && "$env_type" != "deploy" ]]
+do
+    read -p "Environment type (test/deploy): " env_type
+    env_type=${env_type:-$de_env_type}
+done
+
 if [ "$env_type" == "deploy" ]; then
     # Make a copy of the ini which will be used to serve in production
     uwsgi_ini="${www}/eula-aat_uwsgi.ini" 
+
+    # Add the conda env location to the ini
+    conda_loc="notexist"
+    while [[ ! -d "${conda_loc}" ]]
+    do
+        read -p "Location of conda env: " conda_loc
+    done
+
     cp "./config.default/eula-aat_uwsgi.ini" "${uwsgi_ini}"
+
     # Replace the content and log roots for our config files (test doesn't need these since it is port linked)
-    sed -i '' "s:@CONTENTROOT@:${www}:g" $nginx_conf
-    sed -i '' "s:@CONTENTROOT@:${www}:g" $uwsgi_ini
-    sed -i '' "s:@LOGROOT@:${log}:g" $uwsgi_ini
+    # OSX and Linux have different default splicers for sed, so split the commands into two
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i '' "s:@CONTENTROOT@:${www}:g" $nginx_conf
+        sed -i '' "s:@CONTENTROOT@:${www}:g" $uwsgi_ini
+        sed -i '' "s:@LOGROOT@:${log}:g" $uwsgi_ini
+        sed -i '' "s:@CONDALOC@:${conda_loc}:g" $uwsgi_ini
+    else
+        sed -i "s:@CONTENTROOT@:${www}:g" $nginx_conf
+        sed -i "s:@CONTENTROOT@:${www}:g" $uwsgi_ini
+        sed -i "s:@LOGROOT@:${log}:g" $uwsgi_ini
+        sed -i "s:@CONDALOC@:${conda_loc}:g" $uwsgi_ini
+    fi
 
     # Read in the directory to symlink into our wwww dir
-    source_dir="INVALID"
+    source_dir=$de_symlink_src
     while [[ ! -d "$source_dir" ]]
     do
         read -p "directory of project for symlink: " source_dir

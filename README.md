@@ -11,6 +11,8 @@ You will need the following things properly installed on your computer.
 * [Ember CLI](https://ember-cli.com/)
 * [Java 8](https://java.com/en/download/)
 * [nginx](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/)
+* [uwsgi](http://uwsgi-docs.readthedocs.io/en/latest/Install.html)
+* [mongodb-dameon](https://docs.mongodb.com/manual/installation/)
 * [Google Chrome](https://google.com/chrome)
 * [The google chromedriver for your system](https://sites.google.com/a/chromium.org/chromedriver/downloads), and available in your path.
 * The C++ compiler for your system.  For MacOS, this is included in XCode via `xcode-select --install`.  For Linux systems, the package is `g++` for Debian systems and `gcc-c++` for Fedora systems.
@@ -18,8 +20,8 @@ You will need the following things properly installed on your computer.
 ## Installation
 
 ### Part 1 (Back-end)
-* `git clone https://github.com/EULA-Automated-Analysis/rest-listener.git` this repository
-* `cd rest-listener`
+* `git clone https://github.com/REUL-Lab/eula-aat.git` this repository
+* `cd eula-aat`
 * `conda env create -f environment.yml`
 * `source activate eula-aat`
 
@@ -35,7 +37,6 @@ Next, you must install python-boilerpipe.  Be sure to do this in your home direc
 
 Once the installation is done, you may delete the python-boilerpipe directory - it is no longer needed.
 * `rm -rf ~/python-boilerpipe`
-
 
 ### Pt 2 (Front-end)
 * `cd app`
@@ -54,6 +55,7 @@ Run the flask service by activating the `eula-aat` environment as described abov
 * `nginx`
     - If you specified a different configuration name during setup.sh, choose it by adding `-c yourconfig.conf`.
     - Ensure you stop the nginx service at the end of your development by running `nginx -s stop`
+* `mongod`
 
 Run the ember service by navigating to the `/app` directory then running
 * ember serve
@@ -62,9 +64,25 @@ Run the ember service by navigating to the `/app` directory then running
 
 After installing the application, set your webserver firewall to accept requests on port 80.
 
+Create a build of the Ember application for nginx to serve by running
+`ember build` while in the app/ directory
+    - Note that by default, node.js will attempt to allocate 4GB of memory.  If you machine has less memory, use the command `node --max-old-space-size=XXX /usr/bin/npm install` where `XXX` is memory in MB.
+
+
 Run one of the following commands to initialize nginx as a service so it will start with your server:
 * For MacOS systems:
     - `sudo cp /usr/local/opt/nginx/*.plist /Library/LaunchDaemons`
     - `sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.nginx.plist`
-* For Linux systems:
+* For Debian systems:
+    - `sudo update-rc.d nginx enable`
+* For Fedora systems:
     - `sudo systemctl enable nginx`
+
+Configure mongodb as a service:
+* For MacOS systems:
+    - If you installed mongodb using homebrew: `brew services start mongodb`
+    - If you installed mongodb manually: `launchctl load ~/Library/LaunchAgents/homebrew.mxcl.mongodb.plist`
+* For Linux systems:
+    - `sudo systemctl enable mongod`
+
+Your server should now be ready to serve requests.
