@@ -24,7 +24,7 @@ api = Api(app)
 api.add_resource(input.Upload, '/api/eula/upload')
 api.add_resource(input.Fetch, '/api/eula/fetch')
 api.add_resource(results.Results, '/api/results/<string:result_id>')
-api.add_resource(status.Status, '/api/eula/status')
+api.add_resource(status.Status, '/api/status')
 
 if __name__ == '__main__':
     app.run(debug=True)
