@@ -29,7 +29,8 @@ headings_grading = {
 # Formal 1
 # Standardize type conventions throughout document for clarity.
 class TypeConventions(Heuristic):
-    def score(self, eula):
+    @staticmethod
+    def score(eula):
         sentences = []
         # Remove sentences containing only punctuation:
         for sentence in tokenize.sent_tokenize(eula.text):

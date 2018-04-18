@@ -19,7 +19,8 @@ grade_ratios = {
 # Procedural 1b
 # Ensure readability of EULA on mobile devices
 class MobileReadability(Heuristic):
-    def score(self, eula):
+    @staticmethod
+    def score(eula):
         if eula.url is None:
             return {'score': -1, 'max': 4, 'reason': 'no url'}
 

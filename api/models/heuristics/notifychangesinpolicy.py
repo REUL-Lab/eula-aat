@@ -4,7 +4,8 @@ import re
 #procedural 7a
 
 class NotifyChangesInPolicy(Heuristic):
-    def score(self, eula):
+    @staticmethod
+    def score(eula):
         text = eula.text
 
         #date format: any number formatting 26-1-2011 or 1/26/2011
