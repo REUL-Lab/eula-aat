@@ -25,7 +25,7 @@ After ensuring that your directory is accessible, run the configuration script a
 * Set mongod to run on start? [y/N]? `y`
 
 Build the front-end by navigating to the `app` directory and running the following, in order:
-* `node --max-old-space-size=512 /usr/bin/npm install`
-* `./node-modules/ember-cli/bin/ember build`
+* `node --max-old-space-size=512 /usr/bin/npm --unsafe-perm install`
+* `./node_modules/ember-cli/bin/ember build`
 
 Reboot the system, and the program should be ready to serve requests on port 80.
