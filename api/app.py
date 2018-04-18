@@ -14,8 +14,7 @@ app = Flask(__name__)
 app.config['MONGO_DBNAME'] = 'eula_aat'
 app.config['MONGO_HOST'] = 'localhost'
 app.config['MONGO_PORT'] = 27017
-# app.config['MONGO_USERNAME'] = 'api'
-# app.config['MONGODB_PASSWORD'] = os.environ['mongodb_pw']
+
 app = Flask(__name__)
 CORS(app)
 

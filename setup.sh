@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Ensure root
+if [[ "$(whoami)" != "root" ]]; then
+   echo "This script must be run as root" 
+   exit 1
+fi
+
 # Add repos and download using apt
 wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
 echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google-chrome.list

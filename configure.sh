@@ -37,7 +37,7 @@ if [ ! -d "$nginx_loc" ]; then
     exit
 fi
 
-read -p "name for nginx config file [${de_nginx_conf_name}]" nginx_conf_name
+read -p "name for nginx config file [${de_nginx_conf_name}]: " nginx_conf_name
 nginx_conf_name=${nginx_conf_name:-$de_nginx_conf_name}
 
 nginx_conf="${nginx_loc}/${nginx_conf_name}"
@@ -61,14 +61,47 @@ fi
 
 if [ ! -d "${log}/nginx" ]; then
     mkdir "${log}/nginx"
+    chmod 660 "${log}/nginx"
 fi
 
 if [ ! -d "${log}/uwsgi" ]; then
     mkdir "${log}/uwsgi"
+    chmod 660 "${log}/uwsgi"
 fi
 
-if [ "$env_type" == "deploy" ]; then
+re='^[0-9]+$'
+nginx_workers="n"
+while ! [[ $nginx_workers =~ $re ]]
+do
+    read -p "number of nginx worker processes: " nginx_workers
+done
 
+processing_threads="n"
+while ! [[ $processing_threads =~ $re ]]
+do
+    read -p "number of processing threads for a request: " processing_threads
+done
+
+read -p "key for google APIs: " google_api_key
+
+if [ "$env_type" == "test" ]; then
+    echo "export google_api_key=${google_api_key}" >> ~/.bashrc
+    echo "export analyze_max_threads=${processing_threads}" >> ~/.bashrc
+
+    source ~/.bashrc
+
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i '' "s:@CONTENTROOT@:${www}:g" $nginx_conf
+        sed -i '' "s:@SERVICEUSER@:$(whoami):g" $nginx_conf
+        sed -i '' "s:@SERVICEGROUP@:$(whoami):g" $nginx_conf
+        sed -i '' "s:@NGINXWORKERS@:${nginx_workers}:g" $nginx_conf
+    else
+        sed -i "s:@CONTENTROOT@:${www}:g" $nginx_conf
+        sed -i "s:@SERVICEUSER@:$(whoami):g" $nginx_conf
+        sed -i "s:@SERVICEGROUP@:$(whoami):g" $nginx_conf
+        sed -i "s:@NGINXWORKERS@:${nginx_workers}:g" $nginx_conf
+    fi
+else
     read -p "uwsgi configuration location [${de_uwsgi_loc}]: " uwsgi_loc
     uwsgi_loc=${uwsgi_loc:-$de_uwsgi_loc}
     uwsgi_loc=${uwsgi_loc%/}
@@ -102,23 +135,6 @@ if [ "$env_type" == "deploy" ]; then
         read -p "directory of project accessible by your service worker: " source_dir
         source_dir=${source_dir%/}
     done
-
-    re='^[0-9]+$'
-    nginx_workers="n"
-    while ! [[ $nginx_workers =~ $re ]]
-    do
-        read -p "number of nginx worker processes: " nginx_workers
-    done
-
-    re='^[0-9]+$'
-    processing_threads="n"
-    while ! [[ $processing_threads =~ $re ]]
-    do
-        read -p "number of processing threads for a request: " processing_threads
-    done
-
-    read -p "key for google APIs: " google_api_key
-    
 
     # Replace the content and log roots for our config files (test doesn't need these since it is port linked)
     # OSX and Linux have different default splicers for sed, so split the commands into two
@@ -156,12 +172,15 @@ if [ "$env_type" == "deploy" ]; then
     ln -s "${source_dir}" "${www}/eula-aat"
     chown "${service_user}:${service_group}" "${www}/eula-aat"
 
-    # Touch socket and give it to the service user/group
-    mkdir "${www}/socks"
+    # Make directory if not exist and give it to the service user/group
+    if [[ ! -d "${www}/socks" ]]; then
+        mkdir "${www}/socks"
+    fi
+
     chown "${service_user}:${service_group}" "${www}/socks"
     chmod 750 "${www}/socks"
 
-    read -p "Set nginx to run on start? [y/N] " nginx_start
+    read -p "Set nginx to run on start? [y/N]? " nginx_start
     if [[ $nginx_start =~ ^[Yy]$ ]]; then
         systemctl enable nginx
     fi
@@ -171,7 +190,7 @@ if [ "$env_type" == "deploy" ]; then
         systemctl enable uwsgi
     fi
 
-    read -p "Set mongod to run on start? [y/N] " mongod_start
+    read -p "Set mongod to run on start? [y/N]? " mongod_start
     if [[ $mongod_start =~ ^[Yy]$ ]]; then
         systemctl enable mongod
     fi
