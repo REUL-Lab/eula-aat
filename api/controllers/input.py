@@ -5,12 +5,10 @@ from flask import Flask, g
 from flask_restful import reqparse, Resource
 from werkzeug.datastructures import FileStorage
 
-from common import auth, db, webfetch
-from models import eula, formal, substantive, procedural
+from common import db, webfetch, analysis
+from models import eula
 
 class Fetch(Resource):
-    # method_decorators = [auth.authenticate]
-
     def post(self):
         # Parse arguments
         parser = reqparse.RequestParser()
@@ -37,7 +35,7 @@ class Fetch(Resource):
             cleanup_tasks[mobile_driver] = mobile_driver.quit
             fetched_eula = eula.EULA(text, url=url, html=html, desk_driver=desk_driver, mobile_driver=mobile_driver)
 
-            res = fetched_eula.analyze()
+            res = analysis.analyze_eula(fetched_eula)
 
         finally:
             # Since we need the driver for a few heuristics, always make sure we close it or we will run out of memory
@@ -51,8 +49,6 @@ class Fetch(Resource):
 
 
 class Upload(Resource):
-    # method_decorators = [auth.authenticate]
-
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('doctype', type=str, required=True)
@@ -65,7 +61,7 @@ class Upload(Resource):
         else:
             abort(400, message='doctype string not recognized value')
 
-        res = uploaded_eula.analyze()
+        res = analysis.analyze_eula(uploaded_eula)
 
         # Store results in mongodb and return the identifier for lookup
         return str(db.get_db().results.insert_one(res).inserted_id)

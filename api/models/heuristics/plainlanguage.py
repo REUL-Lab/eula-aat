@@ -2,7 +2,8 @@ from models.heuristic import Heuristic
 from readcalc import readcalc
 
 class PlainLanguage(Heuristic):
-    def score(self, eula):
+    @staticmethod
+    def score(eula):
 
         text = eula.text
 
