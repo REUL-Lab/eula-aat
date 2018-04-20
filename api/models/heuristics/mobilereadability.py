@@ -16,42 +16,34 @@ grade_ratios = {
     'TAP_TARGETS_TOO_CLOSE': 2
 }
 
+grades = ['F', 'D', 'C', 'B', 'A']
+
 # Procedural 1b
 # Ensure readability of EULA on mobile devices
 class MobileReadability(Heuristic):
 
     @staticmethod
     def score(eula):
-        name = 'Mobile Readability'
-        grade = 'NR'
-        description = ['default description']
-        score = -1
-        max = 4
-        reason = 'default'
-        issues = None
-
-        def ret_vals():
-            return {
-                'name' : name,
-                'grade' : grade,
-                'description' : description,
-                'score' : score,
-                'max' : max,
-                'reason' : reason,
-                'issues' : issues
-            }
+        # Create string keyed dictionary for conversion into JSON at end
+        ret_vals = {
+            'name': 'Mobile Readability',
+            'description': 'Assesses the readability of a EULA on a web-page',
+            'max': 4
+        }
 
         if eula.url is None:
-            # return {'score': -1, 'max': 4, 'reason': 'no url'}
-            reason = 'no url'
-            return ret_vals()
+            ret_vals['reason'] = 'no url'
+            ret_vals['score'] = -1
+            ret_vals['grade'] = 'N/R'
+            return ret_vals
 
         # Fetch API key from env var
         # If key does not load, omit this heuristic
         if 'google_api_key' not in os.environ:
-            # return {'score': -1, 'max': 4, 'reason': 'Could not connect to Google APIs (NOKEY)'}
-            reason = 'Could not connect to Google APIs (NOKEY)'
-            return ret_vals()
+            ret_vals['reason'] = 'Could not connect to Google APIs (NOKEY)'
+            ret_vals['score'] = -1
+            ret_vals['grade'] = 'N/R'
+            return ret_vals
 
         try:
             google_api_key = os.environ['google_api_key']
@@ -68,13 +60,17 @@ class MobileReadability(Heuristic):
 
             # Make sure test ran properly
             if content['testStatus']['status'] != 'COMPLETE':
-                # return {'score': -1, 'max': 4, 'reason': 'Could not connect to Google APIs'}
-                reason = 'Could not connect to Google APIs'
-                return ret_vals()
+                ret_vals['reason'] = 'Could not connect to Google APIs (NOKEY)'
+                ret_vals['score'] = -1
+                ret_vals['grade'] = 'N/R'
+                return ret_vals
 
             # If there are no issues or no reason to deduct (might be redundent, but is safer way to reference api), return our score
             if content['mobileFriendliness'] == "MOBILE_FRIENDLY" or 'mobileFriendlyIssues' not in content:
-                return {'score': 4, 'max': 4}
+                ret_vals['reason'] = 'Could not connect to Google APIs (NOKEY)'
+                ret_vals['score'] = 4
+                ret_vals['grade'] = grades[4]
+                return ret_vals
 
             # If there are issues
             if 'mobileFriendlyIssues' in content:
@@ -88,24 +84,25 @@ class MobileReadability(Heuristic):
                 for issue in issues:
                     num = num - grade_ratios[str(issue)]
 
-                # # Create string keyed dictionary for conversion into JSON at end
-                # retscore = {
-                #     # Multiply score by 4 for our even representation
-                #     'score': int(round(4 * num / denom)),
-                #     'max': 4
-                # }
-                score = int(round(4 * num / denom))
+                # Multiply score by 4 for our even representation
+                ret_vals['score'] = int(round(4 * num / denom))
+                # Assign grade to score
+                ret_vals['grade'] = grades[ret_vals['score']]
+
                 # Add issues to the return score if we have them
-                # if len(issues) > 0:
-                #     retscore['issues'] = issues
+                if len(issues) > 0:
+                    ret_vals['issues'] = issues
 
                 # Make final return call
-                return ret_vals()
-
+                return ret_vals
 
         except urllib2.URLError:
-            reason = 'Could not connect to Google APIs'
-            return ret_vals()
+            ret_vals['score'] = -1
+            ret_vals['grade'] = 'N/R'
+            ret_vals['reason'] = 'Could not connect to Google APIs'
+            return ret_vals
         except KeyError:
-            reason = 'Error parsing Google API Result'
-            return ret_vals()
+            ret_vals['score'] = -1
+            ret_vals['grade'] = 'N/R'
+            ret_vals['reason'] = 'Error parsing Google API Result'
+            return ret_vals
