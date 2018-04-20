@@ -7,7 +7,7 @@ class PlainLanguage(Heuristic):
     def score(eula):
         text = eula.text
         name = 'Plain Language'
-        description = ['This heuristic checks the reading level of the EULA']
+        description = 'This heuristic checks the reading level of the EULA against K-12 Education levels'
         grade = 'NR'
         max = 4
 
@@ -33,5 +33,6 @@ class PlainLanguage(Heuristic):
             'grade' : grade,
             'score': score,
             'max': 4,
-            'readinglevel': rl
+            'feedback': ['The reading level of your EULA is grade {0}'.format(int(rl)),
+                'The average American has a reading level of grade 8.']
         }

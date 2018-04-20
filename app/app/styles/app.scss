@@ -26,6 +26,12 @@
   flex-flow: row nowrap;
 }
 
+.score-desc {
+  flex: 1 0 auto;
+  max-width: calc(80% - 5px);
+  height: 20px;
+}
+
 .score-list {
   flex: 1 0 auto;
   max-width: calc(80% - 5px);

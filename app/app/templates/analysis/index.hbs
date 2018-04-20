@@ -32,8 +32,11 @@
             <div class='score' score='{{heuristic.grade}}'>
               {{heuristic.grade}}
             </div>
+            <ul class='score-desc'>
+              {{heuristic.description}}
+            </ul>
             <ul class='score-list'>
-              {{#each heuristic.description as |bullet|}}
+              {{#each heuristic.feedback as |bullet|}}
                 <li>{{bullet}}</li>
               {{/each}}
               <p class='text-left score-readmore'>
