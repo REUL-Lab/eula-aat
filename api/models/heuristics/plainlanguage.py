@@ -2,8 +2,9 @@ from models.heuristic import Heuristic
 from readcalc import readcalc
 
 class PlainLanguage(Heuristic):
-    def score(self, eula):
-
+    
+    @staticmethod
+    def score(eula):
         text = eula.text
         name = 'Plain Language'
         description = ['This heuristic checks the reading level of the EULA']
@@ -27,10 +28,10 @@ class PlainLanguage(Heuristic):
             grade = 'F'
 
         return {
-                'name' : name,
-                'description' : description,
-                'grade' : grade,
-                'score': score,
-                'max': 4,
-                'readinglevel': rl
+            'name' : name,
+            'description' : description,
+            'grade' : grade,
+            'score': score,
+            'max': 4,
+            'readinglevel': rl
         }

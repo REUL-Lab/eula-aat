@@ -4,7 +4,9 @@ from readcalc import readcalc
 # Formal 4
 # Ensure reasonable document length for target user
 class DocumentLength(Heuristic):
-    def score(self, eula):
+    
+    @staticmethod
+    def score(eula):
         name = 'Document Length'
         text = eula.text
         calc = readcalc.ReadCalc(text)
@@ -36,10 +38,10 @@ class DocumentLength(Heuristic):
         # C for 1,700 to 1,999 words, B for 1,200 to 1,699 words, and A for fewer than 1,200 words.
 
         return {
-                'name'       : name,
-                'grade'      : grade,
-                'description': description,
-                'score'      : score,
-                'max'        : 4,
-                'numwords'   : words
-                }
+            'name'       : name,
+            'grade'      : grade,
+            'description': description,
+            'score'      : score,
+            'max'        : 4,
+            'numwords'   : words
+        }

@@ -12,9 +12,6 @@ module.exports = function(environment) {
         // e.g. 'with-controller': true
       }
     },
-    sassOptions: {
-      includePaths: ['bower_components/material-design-lite/src']
-    },
     APP: {
       apiDomain: 'localhost:5000'
       // Here you can pass flags/options to your application instance

@@ -4,8 +4,9 @@ import re
 #procedural 7a
 
 class NotifyChangesInPolicy(Heuristic):
-    def score(self, eula):
-        # raise "BLEH"
+
+    @staticmethod
+    def score(eula):
         text = eula.text
         name = 'Notify Changes in Policy'
         description = ['Checks if this EULA gives notification to changes in policy']
@@ -60,19 +61,19 @@ class NotifyChangesInPolicy(Heuristic):
             grade = 'F'
             foundnotification = False
 
-        print date
-        if date != None:
+        if date is not None:
             description.append(date.group(0))
-            print date
 
-        return {
-        'name'              : name,
-        'description'       : description,
-        'grade'             : grade,
-        'score'             : score,
-        'max'               : max,
-        'foundnotification' : foundnotification,
-        'date'              : date.group(0)
+        retvars = {
+            'name'              : name,
+            'description'       : description,
+            'grade'             : grade,
+            'score'             : score,
+            'max'               : max,
+            'foundnotification' : foundnotification,
         }
 
+        if date is not None:
+            retvars['date'] = date.group(0)
 
+        return retvars

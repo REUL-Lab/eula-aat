@@ -1,79 +1,36 @@
-#!/bin/sh
+#!/bin/bash
 
-de_www="/var/www"
-de_log="/var/log"
-de_nginx_loc="/var/etc/nginx"
-de_env_type="test"
-de_nginx_conf_name="nginx.conf"
-
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    de_www="/usr/local/var/www"
-    de_log="/usr/local/var/log"
-    de_nginx_loc="/usr/local/etc/nginx"
+# Ensure root
+if [[ "$(whoami)" != "root" ]]; then
+   echo "This script must be run as root" 
+   exit 1
 fi
 
-read -p "nginx configuration location [${de_nginx_loc}]: " nginx_loc
-nginx_loc=${nginx_loc:-$de_nginx_loc}
-nginx_loc=${nginx_loc%/}
+# Add repos and download using apt
+wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google-chrome.list
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 2930ADAE8CAF5059EE73BB4B58712A2291FA4AD5
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.6 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.6.list
+curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+sudo apt-get update
+sudo apt-get install -y uwsgi python-dev uwsgi-plugin-python python-pip default-jre nginx nodejs mongodb-org-server google-chrome-stable g++ make unzip
 
-if [ ! -d "$nginx_loc" ]; then
-    echo "Cannot open nginx conf directory ${nginx_loc}, make sure nginx is installed."
-    exit
-fi
+# Install boilerpipe
+git clone https://github.com/misja/python-boilerpipe.git /tmp/python-boilerpipe
+# Save directory so we an climb back
+olddir=$(pwd)
 
-while [[ "$env_type" != "test" && "$env_type" != "deploy" ]]
-do
-    read -p "Environment type (test/deploy): " env_type
-    env_type=${env_type:-$de_env_type}
-done
+pip install -r /tmp/python-boilerpipe/requirements.txt
+cd /tmp/python-boilerpipe/ && python /tmp/python-boilerpipe/setup.py install
 
-read -p "name for nginx config file [${de_nginx_conf_name}]" nginx_conf_name
-nginx_conf_name=${nginx_conf_name:-$de_nginx_conf_name}
+cd $olddir
+rm -rf /tmp/python-boilerpipe
 
-nginx_conf="${nginx_loc}/${nginx_conf_name}"
-cp "./config.default/nginx.${env_type}.conf" $nginx_conf
+wget https://chromedriver.storage.googleapis.com/2.37/chromedriver_linux64.zip -P /tmp
+unzip /tmp/chromedriver_linux64.zip -d /bin
+rm /tmp/chromedriver_linux64.zip
 
-read -p "directory for www directory [${de_www}]: " www
-www=${www:-$de_www}
-www=${www%/}
+pip install -r requirements.txt
 
-read -p "directory for log directory [${de_log}]: " log
-log=${log:-$de_log}
-log=${log%/}
-
-if [ ! -d "$www" ]; then
-    mkdir "${www}"
-fi
-
-if [ ! -d "$log" ]; then
-    mkdir "${log}"
-fi
-
-if [ ! -d "${log}/nginx" ]; then
-    mkdir "${log}/nginx"
-fi
-
-if [ ! -d "${log}/uwsgi" ]; then
-    mkdir "${log}/uwsgi"
-fi
-
-if [ "$env_type" == "deploy" ]; then
-    # Make a copy of the ini which will be used to serve in production
-    uwsgi_ini="${www}/eula-aat_uwsgi.ini" 
-    cp "./config.default/eula-aat_uwsgi.ini" "${uwsgi_ini}"
-    # Replace the content and log roots for our config files (test doesn't need these since it is port linked)
-    sed -i '' "s:@CONTENTROOT@:${www}:g" $nginx_conf
-    sed -i '' "s:@CONTENTROOT@:${www}:g" $uwsgi_ini
-    sed -i '' "s:@LOGROOT@:${log}:g" $uwsgi_ini
-
-    # Read in the directory to symlink into our wwww dir
-    source_dir="INVALID"
-    while [[ ! -d "$source_dir" ]]
-    do
-        read -p "directory of project for symlink: " source_dir
-        source_dir=${source_dir%/}
-    done
-
-    # Make symlink
-    ln -s "${source_dir}" "${www}/eula-aat"
-fi
+# Install punkt
+python -c 'import nltk; nltk.download("punkt", download_dir="/usr/local/share/nltk_data")'
