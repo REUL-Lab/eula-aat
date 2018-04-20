@@ -16,6 +16,15 @@ grade_ratios = {
     'TAP_TARGETS_TOO_CLOSE': 2
 }
 
+humanized_issues = {
+    'USES_INCOMPATIBLE_PLUGINS': 'Some of the plugins used by your site do not support mobile browsers',
+    'CONFIGURE_VIEWPORT': 'The viewport of your page is not configured to adapt to mobile browsers',
+    'FIXED_WIDTH_VIEWPORT': 'The viewport of your page is fixed-width',
+    'SIZE_CONTENT_TO_VIEWPORT': 'The size of the static content (e.g. images) in your viewport is incorrect',
+    'USE_LEGIBLE_FONT_SIZES': 'The font size for your page is too small for mobile browsers',
+    'TAP_TARGETS_TOO_CLOSE': 'Targets or links in your page are too close for mobile "tapping"'
+}
+
 grades = ['F', 'D', 'C', 'B', 'A']
 
 # Procedural 1b
@@ -28,6 +37,7 @@ class MobileReadability(Heuristic):
         ret_vals = {
             'name': 'Mobile Readability',
             'description': 'Assesses the readability of a EULA on a web-page',
+            'feedback': [],
             'max': 4
         }
 
@@ -83,15 +93,12 @@ class MobileReadability(Heuristic):
                 # Subtract from numerator for each issue, relative to the weights at top
                 for issue in issues:
                     num = num - grade_ratios[str(issue)]
+                    ret_vals['feedback'].append(humanized_issues[str(issue)])
 
                 # Multiply score by 4 for our even representation
                 ret_vals['score'] = int(round(4 * num / denom))
                 # Assign grade to score
                 ret_vals['grade'] = grades[ret_vals['score']]
-
-                # Add issues to the return score if we have them
-                if len(issues) > 0:
-                    ret_vals['issues'] = issues
 
                 # Make final return call
                 return ret_vals
@@ -99,10 +106,10 @@ class MobileReadability(Heuristic):
         except urllib2.URLError:
             ret_vals['score'] = -1
             ret_vals['grade'] = 'N/R'
-            ret_vals['reason'] = 'Could not connect to Google APIs'
+            ret_vals['feedback'].append('Could not connect to Google APIs')
             return ret_vals
         except KeyError:
             ret_vals['score'] = -1
             ret_vals['grade'] = 'N/R'
-            ret_vals['reason'] = 'Error parsing Google API Result'
+            ret_vals['feedback'].append('Error parsing Google API Result')
             return ret_vals

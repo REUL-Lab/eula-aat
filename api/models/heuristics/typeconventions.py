@@ -17,6 +17,14 @@ caps_grading = {
     4: (lambda x: x < .1)               # Less than 10% caps
 }
 
+# Human-feedback for caps grading
+caps_humanized = {
+    0: 'Your EULA uses many uppercase words',
+    1: 'Your EULA uses some uppercase words',
+    2: 'Your EULA has a few uppercase words',
+    4: 'Your EULA has few uppercase words'
+}
+
 # Count of headings to consider in calculation (if it shows up less than this, don't count it)
 headings_threshhold = 3
 # Headings grading is based upon the relative frequency of the most common heading
@@ -24,6 +32,19 @@ headings_grading = {
     0: (lambda x: x >= 0 and x < 0.5),    # Very mixed headings
     2: (lambda x: x >= 0.5 and x < 0.7),  # Mixed headings
     4: (lambda x: x >= .7),               # Almost no mixed headings
+}
+
+# Human-feedback for heading
+headings_humanized = {
+    0: 'Your EULA contains very mixed headings',
+    2: 'Your EULA contains mixed headings',
+    4: 'Your EULA has unified headings'
+}
+
+#Human feedback for serif
+serif_humanized = {
+    'True': 'Your EULA uses a serif font',
+    'False': 'Your EULA does not use a serif font'
 }
 
 # Formal 1
@@ -36,6 +57,7 @@ class TypeConventions(Heuristic):
         description = ['This heuristic analyzes the type conventions of the EULA']
         grade = 'NR'
         grades = ['F', 'D', 'C', 'B', 'A']
+        feedback = []
 
         sentences = []
         # Remove sentences containing only punctuation:
@@ -55,6 +77,9 @@ class TypeConventions(Heuristic):
 
         # Dict for caps embedding
         caps = {'caps_ratio': caps_ratio, 'all_caps_sentences': caps_sentences}
+
+        # Add humanized caps to feedback
+        feedback.append(caps_humanized[caps_score])
 
         # Headings score will be percent of most occuring headings
         headings_score = -1
@@ -79,6 +104,7 @@ class TypeConventions(Heuristic):
                     headings_score = x
 
             headings = {'counts': headings_counts, 'score': headings_score}
+            feedback.append(headings_humanized[headings_score])
 
         if eula.desk_driver is None:
             serif = 'N/A'
@@ -105,6 +131,8 @@ class TypeConventions(Heuristic):
                 fonts = map(lambda x: x.lower().strip(), font_family.split(','))
                 # Serif = "True" if in family string, "False" if not
                 serif = str('serif' in fonts)
+                # Add serif to feedback
+                feedback.append(serif_humanized[serif])
 
         # We always have the score for caps since it's in text.
         heur_numerator = caps_score * grade_ratios['caps']
@@ -122,14 +150,12 @@ class TypeConventions(Heuristic):
         # Convert numerator to float in order to preserve decimal for rounding
         heur_score = int(round(float(heur_numerator) / heur_denom))
         grade = grades[heur_score]
-        
+
         return {
             'name' : name,
             'description' : description,
             'grade': grade,
             'score': heur_score,
             'max': 4,
-            'caps': caps,
-            'headings': headings,
-            'serif': serif
+            'feedback': feedback
         }
