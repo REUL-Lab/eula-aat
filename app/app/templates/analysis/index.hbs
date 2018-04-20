@@ -1,0 +1,50 @@
+<div class='row'>
+  <div class='col-sm-8'>
+    <h1>
+      <div class='score score-overall' score='{{model.overallGrade}}'>
+        {{model.overallGrade}}
+      </div>
+      Overall Score
+    </h1>
+  </div>
+  <div class='col-sm-4 text-right'>
+    <br/>
+    {{#link-to 'home' class='btn btn-primary'}}
+      <i class='fa fa-refresh'>&nbsp;</i>
+      Start Over
+    {{/link-to}}
+    &nbsp;
+    {{#link-to 'processing.download' class='btn btn-info'}}
+      <i class='fa fa-download'>&nbsp;</i>
+      Donwload as PDF
+    {{/link-to}}
+  </div>
+</div>
+<br/>
+<div class='panel panel-default'>
+  <div class='panel-body'>
+    <div class='row'>
+      {{#each model.heuristics as |heuristic|}}
+        <div class='col-sm-6'>
+          <h3 class='score-header score-header-top'>{{heuristic.name}}</h3>
+          <br/>
+          <div class='score-row'>
+            <div class='score' score='{{heuristic.grade}}'>
+              {{heuristic.grade}}
+            </div>
+            <ul class='score-list'>
+              {{#each heuristic.description as |bullet|}}
+                <li>{{bullet}}</li>
+              {{/each}}
+              <p class='text-left score-readmore'>
+                {{#link-to (heuristic-path heuristic.name)}}<a>Click to Read More</a>{{/link-to}}
+              </p>
+            </ul>
+          </div>
+          <br/>
+          <br/>
+        </div>
+      {{/each}}
+    </div>
+  </div>
+</div>

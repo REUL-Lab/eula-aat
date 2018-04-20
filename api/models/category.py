@@ -9,7 +9,7 @@ class Category:
     @abstractmethod
     def get_heuristics():
         """Getter for the heuristics in a category
-
+        
         Returns:
             A dict of values for each score in a heuristic.
                 Keys should be the class definitions for a heuristic, and values should be the weight

@@ -19,15 +19,39 @@ grade_ratios = {
 # Procedural 1b
 # Ensure readability of EULA on mobile devices
 class MobileReadability(Heuristic):
+
     @staticmethod
     def score(eula):
+        name = 'Mobile Readability'
+        grade = 'NR'
+        description = ['default description']
+        score = -1
+        max = 4
+        reason = 'default'
+        issues = None
+
+        def ret_vals():
+            return {
+                'name' : name,
+                'grade' : grade,
+                'description' : description,
+                'score' : score,
+                'max' : max,
+                'reason' : reason,
+                'issues' : issues
+            }
+
         if eula.url is None:
-            return {'score': -1, 'max': 4, 'reason': 'no url'}
+            # return {'score': -1, 'max': 4, 'reason': 'no url'}
+            reason = 'no url'
+            return ret_vals()
 
         # Fetch API key from env var
         # If key does not load, omit this heuristic
         if 'google_api_key' not in os.environ:
-            return {'score': -1, 'max': 4, 'reason': 'Could not connect to Google APIs (NOKEY)'}
+            # return {'score': -1, 'max': 4, 'reason': 'Could not connect to Google APIs (NOKEY)'}
+            reason = 'Could not connect to Google APIs (NOKEY)'
+            return ret_vals()
 
         try:
             google_api_key = os.environ['google_api_key']
@@ -44,7 +68,9 @@ class MobileReadability(Heuristic):
 
             # Make sure test ran properly
             if content['testStatus']['status'] != 'COMPLETE':
-                return {'score': -1, 'max': 4, 'reason': 'Could not connect to Google APIs'}
+                # return {'score': -1, 'max': 4, 'reason': 'Could not connect to Google APIs'}
+                reason = 'Could not connect to Google APIs'
+                return ret_vals()
 
             # If there are no issues or no reason to deduct (might be redundent, but is safer way to reference api), return our score
             if content['mobileFriendliness'] == "MOBILE_FRIENDLY" or 'mobileFriendlyIssues' not in content:
@@ -62,22 +88,24 @@ class MobileReadability(Heuristic):
                 for issue in issues:
                     num = num - grade_ratios[str(issue)]
 
-                # Create string keyed dictionary for conversion into JSON at end
-                retscore = {
-                    # Multiply score by 4 for our even representation
-                    'score': int(round(4 * num / denom)),
-                    'max': 4
-                }
-
+                # # Create string keyed dictionary for conversion into JSON at end
+                # retscore = {
+                #     # Multiply score by 4 for our even representation
+                #     'score': int(round(4 * num / denom)),
+                #     'max': 4
+                # }
+                score = int(round(4 * num / denom))
                 # Add issues to the return score if we have them
-                if len(issues) > 0:
-                    retscore['issues'] = issues
+                # if len(issues) > 0:
+                #     retscore['issues'] = issues
 
                 # Make final return call
-                return retscore
+                return ret_vals()
 
 
         except urllib2.URLError:
-            return {'score': -1, 'max': 4, 'reason': 'Could not connect to Google APIs'}
+            reason = 'Could not connect to Google APIs'
+            return ret_vals()
         except KeyError:
-            return {'score': -1, 'max': 4, 'reason': 'Error parsing Google API Result'}
+            reason = 'Error parsing Google API Result'
+            return ret_vals()

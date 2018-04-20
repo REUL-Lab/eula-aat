@@ -2,21 +2,36 @@ from models.heuristic import Heuristic
 from readcalc import readcalc
 
 class PlainLanguage(Heuristic):
+    
     @staticmethod
     def score(eula):
-
         text = eula.text
+        name = 'Plain Language'
+        description = ['This heuristic checks the reading level of the EULA']
+        grade = 'NR'
+        max = 4
 
         calc = readcalc.ReadCalc(text)
-        grade = calc.get_flesch_kincaid_grade_level()
+        rl = calc.get_flesch_kincaid_grade_level()
 
-        if grade < 8:
+        if rl < 8:
             score = 4
-        elif grade < 10:
+            grade = 'A'
+        elif rl < 10:
             score = 3
-        elif grade < 12:
+            grade = 'B'
+        elif rl < 12:
             score = 2
+            grade = 'C'
         else:
             score = 0
+            grade = 'F'
 
-        return {'score': score, 'max': 4, 'readinglevel': grade}
+        return {
+            'name' : name,
+            'description' : description,
+            'grade' : grade,
+            'score': score,
+            'max': 4,
+            'readinglevel': rl
+        }

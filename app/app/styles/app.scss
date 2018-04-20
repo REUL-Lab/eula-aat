@@ -1,35 +1,6 @@
 @import "ember-bootstrap/bootstrap";
-
-header {
-  background: #95b6d1;
-  padding: 30px 72px 22px;
-}
-
-nav {
-  float: right;
-  margin: 25px 0 0 auto;
-  text-align: right;
-
-  a {
-    color: #fff;
-    font-family: Hind, Avenir, Helvetica, arial;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 1.4px;
-    margin: 10px 0 10px 36px;
-    opacity: 0.7;
-    padding: 15px 0;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: opacity 0.25s ease;
-
-    &:hover {
-      color: #fff;
-      opacity: 1;
-      text-decoration: none;
-    }
-  }
-}
+@import "header";
+@import "navigation";
 
 .app-container {
   margin-top: 50px;
@@ -82,43 +53,27 @@ nav {
   text-transform: uppercase;
   width: 80px;
 
-  &[score='a+'] {
-    background: darkgreen;
-  }
-
-  &[score='a'] {
+  &[score='A'] {
     background: green;
   }
 
-  &[score='b+'] {
-    background: limegreen;
-  }
-
-  &[score='b'] {
+  &[score='B'] {
     background: gold;
   }
 
-  &[score='c+'] {
-    background: darkgoldenrod;
-  }
-
-  &[score='c'] {
+  &[score='C'] {
     background: orange;
   }
 
-  &[score='d+'] {
-    background: darkorange;
-  }
-
-  &[score='d'] {
+  &[score='D'] {
     background: darkred;
   }
 
-  &[score='f'] {
+  &[score='F'] {
     background: red;
   }
 
-  &[score='nr'] {
+  &[score='NR'] {
     background: darkgrey;
   }
 }
@@ -129,4 +84,16 @@ nav {
   right: 0;
   margin-left: auto;
   margin-right: auto;
+}
+
+.score-overall {
+  display: inline-flex;
+  align-items: center;
+  flex-flow: row nowrap;
+  justify-content: center;
+  vertical-align: middle;
+  padding: 0;
+  margin-right: 15px;
+  font-size: 50px;
+  font-weight: 700;
 }
