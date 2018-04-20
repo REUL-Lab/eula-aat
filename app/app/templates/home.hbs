@@ -2,33 +2,21 @@
   <div class='col-sm-8'>
     <h1>EULA Automated Analysis Tool</h1>
     <br/>
-    <form id='url-form'>
+    <form id='url-form' {{action 'fetchData' on='submit'}}>
       <div class='form-group'>
         <label for='url'>URL to EULA</label>
         <div class='input-group'>
-          <input class='form-control' name='url' type='url' placeholder='http://mywebsite.com/eula' required>
+          {{input class='form-control' name='url'
+                                       type='url'
+                                       placeholder='http://mywebsite.com/eula'
+                                       required=true
+                                       value=urlToFetch}}
           <span class="input-group-btn">
-            {{#link-to 'processing.eula' class='btn btn-success inline-go-btn'}}
+            <button type='submit' class='btn btn-success inline-go-btn'>
               GO
-            {{/link-to}}
+            </button>
           </span>
         </div>
-      </div>
-      <br/>
-      <p>
-        <b>This Is a Link To:</b>
-      </p>
-      <div class='radio'>
-        <label>
-          <input type='radio' name='url_type' value='eula'/>
-          A EULA
-        </label>
-      </div>
-      <div class='radio'>
-        <label>
-          <input type='radio' name='url_type' value='eula'/>
-          Home Page
-        </label>
       </div>
     </form>
     <br/>
@@ -44,15 +32,15 @@
       </div>
     </div>
     <br/>
-    <form id='upload-form'>
+    <form id='upload-form' {{action 'uploadFile' on='submit'}}>
       <div class="form-group">
         <label for='file'>Upload a EULA</label>
-        <input type='file' name='file' required>
+        <input class='file-upload-input' type='file' name='file' required=true>
       </div>
       <div>
-        {{#link-to 'processing.eula' class='btn btn-success pull-right'}}
+        <button type='submit' class='btn btn-success pull-right'>
           Upload File
-        {{/link-to}}
+        </button>
       </div>
     </form>
   </div>

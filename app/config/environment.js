@@ -16,6 +16,7 @@ module.exports = function(environment) {
       includePaths: ['bower_components/material-design-lite/src']
     },
     APP: {
+      apiDomain: 'localhost:5000'
       // Here you can pass flags/options to your application instance
       // when it is created
     }
@@ -42,7 +43,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    ENV.APP.apiDomain = 'google.com';
   }
 
   return ENV;
