@@ -1,6 +1,8 @@
 import config from '../config/environment';
 import Controller from '@ember/controller';
 
+/*global Ember */
+/* eslint-disable no-unused-vars */
 export default Controller.extend({
   ajax: Ember.inject.service(),
   urlToFetch: null,
@@ -8,7 +10,7 @@ export default Controller.extend({
     uploadFile() {
       const formData = new FormData();
 
-      const file = $('.file-upload-input').get(0).files[0];
+      const file = Ember.$('.file-upload-input').get(0).files[0];
       formData.append('contents', file );
 
       const extension = file.name.split('.').get('lastObject');
@@ -45,7 +47,6 @@ export default Controller.extend({
       const request = this.get('ajax').post(`http://${config.APP.apiDomain}/api/eula/fetch`, { data: requestData });
       try {
         request.then((idOfReport) => {
-          console.log(idOfReport);
           if (typeof idOfReport === 'string') {
             this.transitionToRoute(`/analysis/${idOfReport}`);
           } else {
