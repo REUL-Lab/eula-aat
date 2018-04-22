@@ -8,7 +8,7 @@ class EaseOfNavigation(Heuristic):
     def score(eula):
         name = 'Ease of Navigation'
         grade = 'NR'
-        description = ['this heuristic is not yet implemented']
+        description = 'Not yet implemented'
 
         return {
             'name'        : name,

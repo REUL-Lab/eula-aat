@@ -8,7 +8,7 @@ class MobileAccessibility(Heuristic):
     def score(eula):
         name = 'Mobile Accessibility'
         grade = 'NR'
-        description = ['this heuristic is not yet implemented']
+        description = 'Not yet implemented'
 
         return {
             'name'        : name,

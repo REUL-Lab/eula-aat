@@ -4,14 +4,14 @@ from readcalc import readcalc
 # Formal 4
 # Ensure reasonable document length for target user
 class DocumentLength(Heuristic):
-    
+
     @staticmethod
     def score(eula):
         name = 'Document Length'
         text = eula.text
         calc = readcalc.ReadCalc(text)
         words = len(calc.get_words())
-        description = ['This heuristic counts the number of words in the EULA']
+        description = 'Counts the number of words in the EULA'
         feedback = ['Your EULA is {0} words long.'.format(words)]
 
         if words < 1200:

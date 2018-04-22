@@ -9,7 +9,7 @@ class NotifyChangesInPolicy(Heuristic):
     def score(eula):
         text = eula.text
         name = 'Notify Changes in Policy'
-        description = ['Checks if this EULA gives notification to changes in policy']
+        description = 'Checks if this EULA gives notification to changes in policy'
         feedback = []
         grade = 'NR'
         score = 4

@@ -54,7 +54,7 @@ class TypeConventions(Heuristic):
     @staticmethod
     def score(eula):
         name = 'Type Conventions'
-        description = ['This heuristic analyzes the type conventions of the EULA']
+        description = 'Analyzes the type conventions of the EULA'
         grade = 'NR'
         grades = ['F', 'D', 'C', 'B', 'A']
         feedback = []

@@ -1,10 +1,11 @@
 <div class='row'>
-  <div class='col-sm-8'>
-    <h1>EULA Automated Analysis Tool</h1>
+  <div class='col-sm-12'>
+    <h1 class='scorecard-title'>EULA Automated Analysis Tool</h1>
     <br/>
     <form id='url-form' {{action 'fetchData' on='submit'}}>
       <div class='form-group'>
         <label for='url'>URL to EULA</label>
+        <p>Type or paste a link to a EULA to analyze.</p>
         <div class='input-group'>
           {{input class='form-control' name='url'
                                        type='url'
@@ -35,16 +36,17 @@
     <form id='upload-form' {{action 'uploadFile' on='submit'}}>
       <div class="form-group">
         <label for='file'>Upload a EULA</label>
+        <p>Choose a .txt file on your computer to analyze. Your document will be analyzed but not remain on the server.</p>
         <input class='file-upload-input' type='file' name='file' required=true>
       </div>
       <div>
         <button type='submit' class='btn btn-success pull-right'>
-          Upload File
+          GO
         </button>
       </div>
     </form>
   </div>
-  <div class='col-sm-3 col-sm-offset-1 how-to-use'>
+  {{!-- <div class='col-sm-3 col-sm-offset-1 how-to-use'>
     <h4 class='text-center'>How to Use This Tool</h4>
     <br/>
     <p>The first option allows you to specify an online link. This can either be a link to the home page of the site you wish to analyze or the EULA itself.</p>
@@ -52,5 +54,5 @@
     <br/>
     <br/>
     <p>The 2nd option allows you to upload a local EULA in a pdf, doc, docx, or txt file. Your document will be analyzed but not remain on the server.</p>
-  </div>
+  </div> --}}
 </div>
