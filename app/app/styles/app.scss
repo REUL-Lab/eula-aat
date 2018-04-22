@@ -29,7 +29,8 @@
 .score-desc {
   flex: 1 0 auto;
   max-width: calc(80% - 5px);
-  height: 20px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .score-list {
@@ -79,7 +80,7 @@
     background: red;
   }
 
-  &[score='NR'] {
+  &[score='N/R'] {
     background: darkgrey;
   }
 }
@@ -102,4 +103,8 @@
   margin-right: 15px;
   font-size: 50px;
   font-weight: 700;
+}
+
+.italicized {
+  font-style: italic;
 }

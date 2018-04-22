@@ -39,7 +39,7 @@ def analyze_eula(eula):
     overall_score = int(sum(map(lambda x: x['weighted_score'], ret_vars.values())) / len(ret_vars))
     grades = ['F', 'D', 'C', 'B', 'A']
 
-    return {'overall_score': overall_score, 'overall_grade': grades[overall_score], 'categories': ret_vars}
+    return {'title': eula.url, 'overall_score': overall_score, 'overall_grade': grades[overall_score], 'categories': ret_vars}
 
 def cat_score(eula, cat, ret_var, thread_semaphore):
     """Category scoring with thread support
@@ -100,7 +100,7 @@ def cat_score(eula, cat, ret_var, thread_semaphore):
 def heur_score(heur, eula, thread_semaphore, ret_vars):
     """Proxy method for score(self, eula) that handles threaded return and semaphore access
 
-    Args:            
+    Args:
         eula: The EULA object corresponding to an upload or query
         thread_semaphore: The semaphore object to release once process is done
         ret_vars: the dictionary to place our return values in

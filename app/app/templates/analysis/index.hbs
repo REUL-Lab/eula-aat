@@ -4,7 +4,7 @@
       <div class='score score-overall' score='{{model.overallGrade}}'>
         {{model.overallGrade}}
       </div>
-      Overall Score
+      Overall Score for <i>{{model.title}}</i>
     </h1>
   </div>
   <div class='col-sm-4 text-right'>
@@ -29,20 +29,25 @@
           <h3 class='score-header score-header-top'>{{heuristic.name}}</h3>
           <br/>
           <div class='score-row'>
-            <div class='score' score='{{heuristic.grade}}'>
-              {{heuristic.grade}}
-            </div>
-            <ul class='score-desc'>
-              {{heuristic.description}}
-            </ul>
-            <ul class='score-list'>
-              {{#each heuristic.feedback as |bullet|}}
-                <li>{{bullet}}</li>
-              {{/each}}
+            <div>
+              <div class='score' score='{{heuristic.grade}}'>
+                {{heuristic.grade}}
+              </div>
               <p class='text-left score-readmore'>
-                {{#link-to (heuristic-path heuristic.name)}}<a>Click to Read More</a>{{/link-to}}
+                {{#link-to (heuristic-path heuristic.name)}}<a>Show Detail</a>{{/link-to}}
               </p>
-            </ul>
+            </div>
+              <div>
+                <ul class='score-desc'>
+                  {{heuristic.description}}
+                </ul>
+                <ul class='score-list'>
+                  {{#each heuristic.feedback as |bullet|}}
+                    <li>{{bullet}}</li>
+                  {{/each}}
+
+                </ul>
+            </div>
           </div>
           <br/>
           <br/>

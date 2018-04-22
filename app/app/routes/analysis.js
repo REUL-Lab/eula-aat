@@ -17,7 +17,8 @@ export default Ember.Route.extend({
 
             return {
                 heuristics: heuristics,
-                overallGrade: result.overall_grade
+                overallGrade: result.overall_grade,
+                title: result.title
             };
         })
     }

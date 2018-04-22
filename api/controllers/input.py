@@ -57,7 +57,7 @@ class Upload(Resource):
         vals = parser.parse_args()
 
         if vals['doctype'] == 'txt':
-            uploaded_eula = eula.EULA(vals['contents'].read())
+            uploaded_eula = eula.EULA(text=vals['contents'].read(), url=vals['contents'].filename)
         else:
             abort(400, message='doctype string not recognized value')
 
