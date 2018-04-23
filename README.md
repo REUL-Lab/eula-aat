@@ -2,6 +2,32 @@
 
 End-User Licensing Agreements, or EULAs, govern all of our interactions with modern technology, but few people understand their legal implications. The Automated Analysis Tool quickly and consistently assesses EULAs based on readability, presentation, and accessibility. This allows researchers to easily break down and analyze EULAs, promote public understanding, and encourages the creation of more ethical and readable licenses.
 
+
+### Release Notes: Version 1.0
+
+## Features
+* EULA URL parsing and submission
+* Plain text file processing and submission
+* Counts words in EULA
+* Assesses reading level of EULA (Flesch-Kincaid, K-12)
+* Finds if a EULA has a clearly stated last notified date
+* Assesses basic type conventions (serif font, consistent headings)
+* aggregates scores
+
+## Bug Fixes
+
+* Fixed bug that prevented cross communication between front and back end
+* Fixed front end formatting of results page (missalignment of elements)
+
+## Known Bugs
+
+* Processing takes a long time (upwards of 10-30 seconds).
+* mobile readability heuristic does not function correctly.
+* mobile accessibiliy heuristic does not function correctly.
+* Notify Changes in Policy sometimes does not find a last updated date, even if one is present.
+* Type conventions is
+
+
 ### Quickstart for Deploy
 
 If deploying to a debian/Ubuntu server environment, you may follow the [quickstart guide](quickstart.md) to automatically deploy.
