@@ -26,13 +26,13 @@ You will need the following things properly installed on your computer.
 ### Part 1 (Back-end)
 * `git clone https://github.com/REUL-Lab/eula-aat.git` this repository
 * `cd eula-aat`
-* If developing, initialize and acgivate the environment with conda using
+* If developing, initialize and activate the environment with conda using
     - `conda env create -f environment.yml`
     - `source activate eula-aat`
 * If running for deploy (on debian distributions only), run the quick configure script and skip to Part 2
     - `sudo chmod +x setup.sh && sudo ./setup.sh`
 * For other deploys, install the python environment and continue following
-    - `pip install -r requirements.txt` 
+    - `pip install -r requirements.txt`
 
 Install the punkt package for nltk
 * `python -c 'import nltk; nltk.download("punkt")'`
@@ -81,7 +81,7 @@ Create a build of the Ember application for nginx to serve by running `./node_mo
 
 Run the following command to initialize nginx as a service so it will start with your server:
     - `sudo systemctl enable nginx`
-   
+
 Configure mongodb as a service:
     - `sudo systemctl enable mongod`
 
