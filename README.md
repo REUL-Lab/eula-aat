@@ -1,5 +1,7 @@
 # EULA Automated Analysis Tool
 
+End-User Licensing Agreements, or EULAs, govern all of our interactions with modern technology, but few people understand their legal implications. The Automated Analysis Tool quickly and consistently assesses EULAs based on readability, presentation, and accessibility. This allows researchers to easily break down and analyze EULAs, promote public understanding, and encourages the creation of more ethical and readable licenses.
+
 ### Quickstart for Deploy
 
 If deploying to a debian/Ubuntu server environment, you may follow the [quickstart guide](quickstart.md) to automatically deploy.
