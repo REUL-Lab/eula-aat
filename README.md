@@ -74,6 +74,8 @@ Run the flask service by activating the `eula-aat` environment as described abov
 Run the ember service by navigating to the `/app` directory then running
 * `ember serve`
 
+A guide to adding heuristics can be found in [DEVGUIDE.md](DEVGUIDE.MD).
+
 ## Running as a Public Web Service (Linux Only)
 
 After installing the application and running the `./configure.sh` script for deploy, set your webserver firewall to accept requests on port 80.
