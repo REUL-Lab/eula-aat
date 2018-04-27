@@ -4,7 +4,7 @@ The EULA Automated Analysis Tool is a web application that retrieves, parses, an
 
 ### Quickstart for Deploy
 
-If deploying to a debian/Ubuntu server environment, you may follow the [quickstart guide](quickstart.md) to quickly install and initialize the program.
+If deploying to a debian/Ubuntu server environment, you may follow the [quickstart guide](QUICKSTART.md) to quickly install and initialize the program.
 
 ## Prerequisites
 
