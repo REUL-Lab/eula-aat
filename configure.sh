@@ -10,13 +10,16 @@ de_symlink_src=$(pwd)
 de_service_user="root"
 de_service_group="root"
 
-rec_uwsgi_workers=16
+rec_uwsgi_workers=8
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     de_www="/usr/local/var/www"
     de_log="/usr/local/var/log"
     de_nginx_loc="/usr/local/etc/nginx"
     de_wsgi_loc="/usr/local/etc/uwsgi/apps-enabled"
+    de_uwsgi_loc="/usr/local/etc/uwsgi/apps-enabled"
+    de_service_user="www"
+    de_service_group="www"
 fi
 
 while [[ "$env_type" != "test" && "$env_type" != "deploy" ]]
@@ -120,9 +123,10 @@ else
     # Set number of service workers
     re='^[0-9]+$'
     uwsgi_workers="n"
-    rec_override=false
-    seen_message=false
-    while [[ ! $rec_override]]
+    rec_override=0
+    seen_message=0
+
+    while [[ $rec_override != 1 ]]
     do
         rec_override=$seen_message
         uwsgi_workers="n"
@@ -131,11 +135,16 @@ else
             read -p "number of uwsgi worker processes:  " uwsgi_workers
         done
 
-        if [[ $uwsgi_workers < $rec_uwsgi_workers && ! seen_message]]; then
-            seen_message=true
-            echo "\tUWSGI workers limit the number of EULAs that can be processed simultaneously\n\tIt is recommended that value be at least ${$rec_uwsgi_workers}.\n\tRe-enter your value or choose a larger one.\n"
+        if [[ (($uwsgi_workers < $rec_uwsgi_workers || $uwsgi_workers != $rec_uwsgi_workers )) &&  $seen_message == 0 ]]; then
+            seen_message=1
+            tput setaf 1
+            echo ""
+            echo -n "WARNING:  "
+            tput sgr0
+            echo "UWSGI workers limit the number of EULAs that can be processed simultaneously. It is recommended that value be at least ${rec_uwsgi_workers}. Re-enter your value or choose a larger one."
+            echo ""
         else
-            rec_override=true
+            rec_override=1
         fi
     done
 
@@ -147,12 +156,15 @@ else
         service_user=${service_user:-$de_service_user}
     done
 
-    service_group=""
-    while ! getent group "$service_group" >/dev/null 2>&1
+
+    # For OSX Support
+    service_prompted=0
+    while [[ $service_prompted != 1 || ! "$(grep -m 1 $service_group /etc/group)" ]]
     do
+        service_prompted=1
         read -p "gid of service usergroup [${de_service_group}]: " service_group
         service_group=${service_group:-$de_service_group}
-    done 
+    done
 
     while [[ ! -d "$source_dir" ]]
     do
@@ -195,7 +207,10 @@ else
     done
 
     # Make symlink and give it to service user/group
-    ln -s "${source_dir}" "${www}/eula-aat"
+    if [ -d "${www}/eula-aat" ]; then
+        rm "${www}/eula-aat"
+    fi
+    ln -s "${source_dir}" "${www}"
     chown "${service_user}:${service_group}" "${www}/eula-aat"
 
     # Make directory if not exist and give it to the service user/group
