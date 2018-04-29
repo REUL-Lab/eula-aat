@@ -10,6 +10,8 @@ de_symlink_src=$(pwd)
 de_service_user="root"
 de_service_group="root"
 
+rec_uwsgi_workers=16
+
 if [[ "$OSTYPE" == "darwin"* ]]; then
     de_www="/usr/local/var/www"
     de_log="/usr/local/var/log"
@@ -28,12 +30,12 @@ if [[ "$env_type" == "deploy" && "$(whoami)" != "root" ]]; then
     exit
 fi
 
-read -p "nginx configuration location [${de_nginx_loc}]: " nginx_loc
+read -p "nginx config location [${de_nginx_loc}]: " nginx_loc
 nginx_loc=${nginx_loc:-$de_nginx_loc}
 nginx_loc=${nginx_loc%/}
 
 if [ ! -d "$nginx_loc" ]; then
-    echo "Cannot open nginx conf directory ${nginx_loc}, make sure nginx is installed."
+    echo "Cannot open nginx config directory ${nginx_loc}, make sure nginx is installed."
     exit
 fi
 
@@ -115,6 +117,28 @@ else
     uwsgi_ini="${uwsgi_loc}/eula-aat_uwsgi.ini"
     cp "./config.default/eula-aat_uwsgi.ini" "${uwsgi_ini}"
 
+    # Set number of service workers
+    re='^[0-9]+$'
+    uwsgi_workers="n"
+    rec_override=false
+    seen_message=false
+    while [[ ! $rec_override]]
+    do
+        rec_override=$seen_message
+        uwsgi_workers="n"
+        while ! [[ $uwsgi_workers =~ $re ]]
+        do
+            read -p "number of uwsgi worker processes:  " uwsgi_workers
+        done
+
+        if [[ $uwsgi_workers < $rec_uwsgi_workers && ! seen_message]]; then
+            seen_message=true
+            echo "\tUWSGI workers limit the number of EULAs that can be processed simultaneously\n\tIt is recommended that value be at least ${$rec_uwsgi_workers}.\n\tRe-enter your value or choose a larger one.\n"
+        else
+            rec_override=true
+        fi
+    done
+
     # Pull user of service worker for permissions between uwsgi and nginx
     service_user=""
     while ! id "$service_user" >/dev/null 2>&1
@@ -145,6 +169,7 @@ else
         sed -i '' "s:@SERVICEGROUP@:${service_group}:g" $uwsgi_ini
         sed -i '' "s:@GOOGLE_API_KEY@:${google_api_key}:g" $uwsgi_ini
         sed -i '' "s:@ANALYZE_MAX_THREADS@:${processing_threads}:g" $uwsgi_ini
+        sed -i '' "s:@UWSGIWORKERS@:${uwsgi_workers}:g" $uwsgi_ini
         sed -i '' "s:@SERVICEUSER@:${service_user}:g" $nginx_conf
         sed -i '' "s:@SERVICEGROUP@:${service_group}:g" $nginx_conf
         sed -i '' "s:@NGINXWORKERS@:${nginx_workers}:g" $nginx_conf
@@ -155,6 +180,7 @@ else
         sed -i "s:@SERVICEGROUP@:${service_group}:g" $uwsgi_ini
         sed -i "s:@GOOGLE_API_KEY@:${google_api_key}:g" $uwsgi_ini
         sed -i "s:@ANALYZE_MAX_THREADS@:${processing_threads}:g" $uwsgi_ini
+        sed -i "s:@UWSGIWORKERS@:${uwsgi_workers}:g" $uwsgi_ini
         sed -i "s:@SERVICEUSER@:${service_user}:g" $nginx_conf
         sed -i "s:@SERVICEGROUP@:${service_group}:g" $nginx_conf
         sed -i "s:@NGINXWORKERS@:${nginx_workers}:g" $nginx_conf
