@@ -6,7 +6,7 @@
   </div>
   <div class='col-sm-4 text-right'>
     <br/>
-    {{#link-to 'home' class='btn btn-primary'}}
+    {{#link-to 'home' class='btn btn-primary restart-btn'}}
       <i class='fa fa-refresh'>&nbsp;</i>
       Back to Beginning
     {{/link-to}}
@@ -16,7 +16,7 @@
       Donwload Scorecard
     {{/link-to}} --}}
   </div>
-  <div class='col-sm-8'>
+  <div class='col-lg-12'>
     <h1 class='top-score-view'>
       <div class='score score-overall' score='{{model.overallGrade}}'>
         {{model.overallGrade}}
@@ -48,7 +48,7 @@
                 </ul>
                 <ul class='score-list'>
                   {{#each heuristic.feedback as |bullet|}}
-                    <li>{{bullet}}</li>
+                    <li class={{bullet.class}}>{{bullet.text}}</li>
                   {{/each}}
 
                 </ul>

@@ -17,13 +17,13 @@ grade_ratios = {
 }
 
 humanized_issues = {
-    'USES_INCOMPATIBLE_PLUGINS': 'Some of the plugins used by your site do not support mobile browsers',
-    'CONFIGURE_VIEWPORT': 'The viewport of your page is not configured to adapt to mobile browsers',
-    'FIXED_WIDTH_VIEWPORT': 'The viewport of your page is fixed-width',
-    'SIZE_CONTENT_TO_VIEWPORT': 'The size of the static content (e.g. images) in your viewport is incorrect',
-    'USE_LEGIBLE_FONT_SIZES': 'The font size for your page is too small for mobile browsers',
-    'TAP_TARGETS_TOO_CLOSE': 'Targets or links in your page are too close for mobile "tapping"',
-    'NO_ISSUES': 'No mobile readability issues were found in this EULA!'
+    'USES_INCOMPATIBLE_PLUGINS': {'rating': 3, 'text': 'Some of the plugins used by your site do not support mobile browsers'},
+    'CONFIGURE_VIEWPORT': {'rating': 1, 'text': 'The viewport of your page is not configured to adapt to mobile browsers'},
+    'FIXED_WIDTH_VIEWPORT': {'rating': 1, 'text': 'The viewport of your page is fixed-width'},
+    'SIZE_CONTENT_TO_VIEWPORT': {'rating': 1, 'text': 'The size of the static content (e.g. images) in your viewport is incorrect'},
+    'USE_LEGIBLE_FONT_SIZES': {'rating': 0, 'text': 'The font size for your page is too small for mobile browsers'},
+    'TAP_TARGETS_TOO_CLOSE': {'rating': 0, 'text': 'Targets or links in your page are too close for mobile "tapping"'},
+    'NO_ISSUES': {'rating': 2, 'text': 'No mobile readability issues were found in this EULA!'}
 }
 
 grades = ['F', 'D', 'C', 'B', 'A']
@@ -43,7 +43,7 @@ class MobileReadability(Heuristic):
         }
 
         if eula.url is None:
-            ret_vals['feedback'] = ['This EULA was an uploaded document and therefore does not have a mobile view.']
+            ret_vals['feedback'] = [{'rating': 2, 'text': 'This EULA was an uploaded document and therefore does not have a mobile view.'}]
             ret_vals['score'] = -1
             ret_vals['grade'] = 'N/R'
             return ret_vals

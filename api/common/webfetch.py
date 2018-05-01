@@ -41,6 +41,12 @@ class FetchService:
         driver = webdriver.Chrome(chrome_options=chrome_options)
         driver.set_window_size(desk_width, desk_height)
 
+        # Set load timeouts to load for 20s, 10s is default
+        driver.implicitly_wait(20)
+
+        # Set script timeouts to prevent malicious execution
+        driver.set_script_timeout(20)
+
         # Grab desktop view
         driver.get(self.url)
 
@@ -66,6 +72,13 @@ class FetchService:
         # Enable mobile emulation for headless
         chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
         driver = webdriver.Chrome(chrome_options=chrome_options)
+
+        # Set load timeouts to load for 20s, 10s is default
+        driver.implicitly_wait(20)
+
+        # Set script timeouts to prevent malicious execution
+        driver.set_script_timeout(20)
+
 
         # Nav to page and expand to full view
         driver.get(self.url)

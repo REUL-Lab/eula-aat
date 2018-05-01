@@ -9,9 +9,15 @@ export default Ember.Route.extend({
 
         return request.then((result) => {
             let heuristics = [];
+            const classes = ['text-danger', 'text-warning', 'text-success', 'text-info']
 
             for (let category in result.categories) {
-                const heuristicsToAdd = result.categories[category].heuristics;
+                let heuristicsToAdd = result.categories[category].heuristics;
+                heuristicsToAdd.forEach(function(heuristic){
+                    heuristic.feedback.forEach(function(fb) {
+                        fb.class = classes[fb.rating]
+                    });
+                });
                 heuristics = heuristics.concat(heuristicsToAdd);
             }
 

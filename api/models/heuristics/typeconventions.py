@@ -12,17 +12,15 @@ grade_ratios = {
 # Caps grading is based on percentage of documents written in all caps
 caps_grading = {
     0: (lambda x: x >= .5 and x < 1),   # Between 50% and 100% caps
-    1: (lambda x: x >= .3 and x < .5),  # Between 30% and 50% caps
-    3: (lambda x: x >= .1 and x < .3),  # Between 10% and 30% caps
-    4: (lambda x: x < .1)               # Less than 10% caps
+    1: (lambda x: x >= .2 and x < .5),  # Between 20% and 50% caps
+    4: (lambda x: x < .2)               # Less than 20% caps
 }
 
 # Human-feedback for caps grading
 caps_humanized = {
-    0: 'This EULA uses many uppercase words',
-    1: 'This EULA uses some uppercase words',
-    3: 'This EULA has a few uppercase words',
-    4: 'This EULA has few uppercase words'
+    0: {'rating': 0, 'text': 'This EULA uses many uppercase words'},
+    1: {'rating': 1, 'text': 'This EULA uses some uppercase words'},
+    4: {'rating': 2, 'text': 'This EULA has few uppercase words'}
 }
 
 # Count of headings to consider in calculation (if it shows up less than this, don't count it)
@@ -36,15 +34,15 @@ headings_grading = {
 
 # Human-feedback for heading
 headings_humanized = {
-    0: 'This EULA contains very mixed headings',
-    2: 'This EULA contains mixed headings',
-    4: 'This EULA has unified headings'
+    0: {'rating': 0, 'text': 'This EULA contains very mixed headings'},
+    2: {'rating': 1, 'text': 'This EULA contains mixed headings'},
+    4: {'rating': 2, 'text': 'This EULA has unified headings'}
 }
 
 #Human feedback for serif
 serif_humanized = {
-    'True': 'This EULA uses a serif font',
-    'False': 'This EULA does not use a serif font'
+    True: {'rating': 0, 'text': 'This EULA uses a serif font'},
+    False: {'rating': 2, 'text': 'This EULA does not use a serif font'}
 }
 
 # Formal 1
@@ -123,14 +121,14 @@ class TypeConventions(Heuristic):
 
             # If not findable, don't take points off
             if elements is None or len(elements) == 0:
-                serif = 'N/A'
+                serif = None
             else:
                 # Found an element with an identifyable font
                 font_family = elements[0].value_of_css_property('font-family')
                 # Strip the family into pieces
                 fonts = map(lambda x: x.lower().strip(), font_family.split(','))
                 # Serif = "True" if in family string, "False" if not
-                serif = str('serif' in fonts)
+                serif = 'serif' in fonts
                 # Add serif to feedback
                 feedback.append(serif_humanized[serif])
 
@@ -139,8 +137,8 @@ class TypeConventions(Heuristic):
         heur_denom = max(caps_grading.keys()) * grade_ratios['caps']
 
         # If we couldn't identify serif, don't detract from it
-        heur_numerator = heur_numerator + (grade_ratios['serif'] if serif =='True' else 0)
-        heur_denom = heur_denom + (grade_ratios['serif'] if serif is not 'N/A' else 0)
+        heur_numerator = heur_numerator + (grade_ratios['serif'] if serif else 0)
+        heur_denom = heur_denom + (grade_ratios['serif'] if serif is not None else 0)
 
         # If we couldn't identify headings, don't detract from it
         heur_numerator = heur_numerator + (headings_score * grade_ratios['headings'] if headings_score != -1 else 0)
@@ -148,7 +146,7 @@ class TypeConventions(Heuristic):
 
         # Set the score as an int in [0,4]
         # Convert numerator to float in order to preserve decimal for rounding
-        heur_score = int(round(float(heur_numerator) / heur_denom))
+        heur_score = int(round(float(heur_numerator) * 4 / heur_denom))
         grade = grades[heur_score]
 
         return {

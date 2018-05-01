@@ -36,7 +36,8 @@ class Fetch(Resource):
             # Add cleanup tasks for both instances
             cleanup_tasks[desk_driver] = desk_driver.quit
             cleanup_tasks[mobile_driver] = mobile_driver.quit
-            fetched_eula = eula.EULA(text, url=url, html=html, desk_driver=desk_driver, mobile_driver=mobile_driver)
+
+            fetched_eula = eula.EULA(text, title=desk_driver.title, url=url, html=html, desk_driver=desk_driver, mobile_driver=mobile_driver)
 
             res = analysis.analyze_eula(fetched_eula)
 
@@ -58,11 +59,14 @@ class Upload(Resource):
 
         vals = parser.parse_args()
 
-        content = vals['contents'].read()
-        text = ''.join([i if ord(i) < 128 else '' for i in text])
-
+        #
         if vals['doctype'] == 'txt':
-            uploaded_eula = eula.EULA(text=,text title=vals['contents'].filename)
+            # Parse into ASCII for the readability calculator
+            content = vals['contents'].read()
+            # Ordinals between 0 and 128 are ASCII
+            text = ''.join([i if ord(i) < 128 else '' for i in content])
+            # Create eula object
+            uploaded_eula = eula.EULA(text=text, title=vals['contents'].filename)
         else:
             abort(400, message='doctype string not recognized value')
 
