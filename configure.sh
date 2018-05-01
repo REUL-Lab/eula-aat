@@ -9,6 +9,7 @@ de_uwsgi_loc="/etc/uwsgi/apps-enabled"
 de_symlink_src=$(pwd)
 de_service_user="root"
 de_service_group="root"
+de_host="localhost"
 
 rec_uwsgi_workers=8
 
@@ -31,6 +32,16 @@ done
 if [[ "$env_type" == "prod" && "$(whoami)" != "root" ]]; then
     echo "Deploy configuration requires root privileges"
     exit
+fi
+
+read -p "Hostname of API server [${de_host}]: " host
+host=${host:-$de_host}
+host=${host%/}
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed -i '' "s:@APIDOMAIN@:${host}:g" "./app/congig/environment.js"
+else
+    sed -i "s:@APIDOMAIN@:${host}:g" "./app/congig/environment.js"
 fi
 
 read -p "nginx config location [${de_nginx_loc}]: " nginx_loc
