@@ -44,7 +44,7 @@ Next, you must install python-boilerpipe.  Be sure to do this in your home direc
 * `cd python-boilerpipe`
 * `pip install -r requirements.txt`
 * `python setup.py install`
-
+this.rootURL
 Once the installation is done, you may delete the python-boilerpipe directory - it is no longer needed.
 * `rm -rf /tmp/python-boilerpipe`
 
@@ -77,6 +77,8 @@ Run the ember service by navigating to the `/app` directory then running
 A guide to adding heuristics can be found in [DEVGUIDE.md](DEVGUIDE.MD).
 
 ## Running as a Public Web Service (Linux Only)
+
+If you are exporting the static build to another webservice or S3, first edit `app/config/environment.js:16` and replace `this.rootURL` with the address of the API server.  Additionally, remove lines 33-36 in your `nginx.conf` to prevent the server from attemtping to serve the static content itself.
 
 After installing the application and running the `./configure.sh` script for production, set your webserver firewall to accept requests on port 80.
 
