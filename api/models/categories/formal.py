@@ -10,6 +10,5 @@ class Formal(Category):
     def get_heuristics():
         return {
             typeconventions.TypeConventions: 1,
-            easeofnavigation.EaseOfNavigation: 1,
-            documentlength.DocumentLength: 1
+            documentlength.DocumentLength: 5
         }

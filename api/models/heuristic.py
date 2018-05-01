@@ -1,4 +1,4 @@
-""" Abstract class for Heuristics to extend.  All Heuristics should be able to be called using a single evaluate() call
+""" Abstract class for Heuristics to extend.  All Heuristics should be able to be called using a single score() call
 """
 import traceback
 import logging

@@ -1,3 +1,6 @@
+""" Main feature of the backend.  Resources are either given as a URL or a txt file.  Results are stored in mongo and the mongo_id is handed back.
+"""
+
 import os
 import requests
 import time

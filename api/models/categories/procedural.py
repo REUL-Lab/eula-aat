@@ -9,7 +9,6 @@ class Procedural(Category):
     @staticmethod
     def get_heuristics():
         return {
-            mobileaccessibility.MobileAccessibility: 2,
             notifychangesinpolicy.NotifyChangesInPolicy: 3,
             mobilereadability.MobileReadability: 5
         }
