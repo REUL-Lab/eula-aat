@@ -9,7 +9,8 @@ class NotifyChangesInPolicy(Heuristic):
     def score(eula):
         text = eula.text
         name = 'Notify Changes in Policy'
-        description = ['Checks if this EULA gives notification to changes in policy']
+        description = 'Checks if this EULA gives notification to changes in policy'
+        feedback = []
         grade = 'NR'
         score = 4
         max = 4
@@ -62,15 +63,18 @@ class NotifyChangesInPolicy(Heuristic):
             foundnotification = False
 
         if date is not None:
-            description.append(date.group(0))
+            feedback.append("This EULA states \"{0}\"".format(date.group(0)))
+        else:
+            feedback.append("The tool did not find a last-modified date in this EULA")
 
         retvars = {
-            'name'              : name,
-            'description'       : description,
-            'grade'             : grade,
-            'score'             : score,
-            'max'               : max,
+            'name': name,
+            'description': description,
+            'grade': grade,
+            'score': score,
+            'max': max,
             'foundnotification' : foundnotification,
+            'feedback': feedback
         }
 
         if date is not None:

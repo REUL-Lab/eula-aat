@@ -1,3 +1,6 @@
+""" Main feature of the backend.  Resources are either given as a URL or a txt file.  Results are stored in mongo and the mongo_id is handed back.
+"""
+
 import os
 import requests
 import time
@@ -43,7 +46,6 @@ class Fetch(Resource):
             for item, cleanup in cleanup_tasks.iteritems():
                 cleanup()
 
-
         # Store results in mongodb and return the identifier for lookup
         return str(db.get_db().results.insert_one(res).inserted_id)
 
@@ -57,7 +59,7 @@ class Upload(Resource):
         vals = parser.parse_args()
 
         if vals['doctype'] == 'txt':
-            uploaded_eula = eula.EULA(vals['contents'].read())
+            uploaded_eula = eula.EULA(text=vals['contents'].read(), title=vals['contents'].filename)
         else:
             abort(400, message='doctype string not recognized value')
 

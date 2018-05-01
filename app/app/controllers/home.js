@@ -1,10 +1,23 @@
 import config from '../config/environment';
 import Controller from '@ember/controller';
+import { inject as service } from '@ember/service';
 
+/* eslint-disable no-unused-vars */
 export default Controller.extend({
-  ajax: Ember.inject.service(),
+  ajax: service(),
   urlToFetch: null,
+  init: function () {
+    this._super();
+    this.set('fileName', null);
+  },
   actions: {
+    chooseFile() {
+      $('.file-upload-input').click()
+    },
+    updateFilename() {
+      const file = $('.file-upload-input').get(0).files[0];
+      this.set('fileName', file.name);
+    },
     uploadFile() {
       const formData = new FormData();
 
@@ -13,8 +26,6 @@ export default Controller.extend({
 
       const extension = file.name.split('.').get('lastObject');
       formData.append('doctype', extension);
-
-      this.transitionToRoute('processing.pdf');
 
       const request = this.get('ajax').post(`http://${config.APP.apiDomain}/api/eula/upload`, {
         processData: false,
@@ -45,7 +56,6 @@ export default Controller.extend({
       const request = this.get('ajax').post(`http://${config.APP.apiDomain}/api/eula/fetch`, { data: requestData });
       try {
         request.then((idOfReport) => {
-          console.log(idOfReport);
           if (typeof idOfReport === 'string') {
             this.transitionToRoute(`/analysis/${idOfReport}`);
           } else {

@@ -3,7 +3,7 @@
 de_www="/var/www"
 de_log="/var/log"
 de_nginx_loc="/etc/nginx"
-de_env_type="test"
+de_env_type="dev"
 de_nginx_conf_name="nginx.conf"
 de_uwsgi_loc="/etc/uwsgi/apps-enabled"
 de_symlink_src=$(pwd)
@@ -22,13 +22,13 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     de_service_group="www"
 fi
 
-while [[ "$env_type" != "test" && "$env_type" != "deploy" ]]
+while [[ "$env_type" != "dev" && "$env_type" != "prod" ]]
 do
-    read -p "Environment type (test/deploy): " env_type
+    read -p "Environment type (dev/prod): " env_type
     env_type=${env_type:-$de_env_type}
 done
 
-if [[ "$env_type" == "deploy" && "$(whoami)" != "root" ]]; then
+if [[ "$env_type" == "prod" && "$(whoami)" != "root" ]]; then
     echo "Deploy configuration requires root privileges"
     exit
 fi
@@ -89,11 +89,14 @@ done
 
 read -p "key for google APIs: " google_api_key
 
-if [ "$env_type" == "test" ]; then
-    echo "export google_api_key=${google_api_key}" >> ~/.bashrc
-    echo "export analyze_max_threads=${processing_threads}" >> ~/.bashrc
+if [ "$env_type" == "dev" ]; then
 
-    source ~/.bashrc
+    read -p "Add analyze_max_threads and google_api_key to .bashrc [y/N]? " bashrc
+    if [[ $bashrc =~ ^[Yy]$ ]]; then
+        echo "export google_api_key=${google_api_key}" >> ~/.bashrc
+        echo "export analyze_max_threads=${processing_threads}" >> ~/.bashrc
+        source ~/.bashrc
+    fi
 
     if [[ "$OSTYPE" == "darwin"* ]]; then
         sed -i '' "s:@CONTENTROOT@:${www}:g" $nginx_conf
@@ -172,7 +175,7 @@ else
         source_dir=${source_dir%/}
     done
 
-    # Replace the content and log roots for our config files (test doesn't need these since it is port linked)
+    # Replace the content and log roots for our config files (dev doesn't need these since it is port linked)
     # OSX and Linux have different default splicers for sed, so split the commands into two
     if [[ "$OSTYPE" == "darwin"* ]]; then
         sed -i '' "s:@CONTENTROOT@:${www}:g" $nginx_conf

@@ -1,4 +1,4 @@
-""" Abstract class for Heuristics to extend.  All Heuristics should be able to be called using a single evaluate() call
+""" Abstract class for categories to extend.  All categories should use the @abstractmethod tag when implementing this
 """
 
 from abc import ABCMeta, abstractmethod

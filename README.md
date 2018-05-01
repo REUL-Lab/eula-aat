@@ -2,7 +2,7 @@
 
 The EULA Automated Analysis Tool is a web application that retrieves, parses, and analyzes EULA documents.  These documents can either be uploaded or retrieved from a publicly accessible URL.  The tool evaluates EULAs on a set of heuristics defined within the project.
 
-### Quickstart for Deploy
+### Quickstart for Production
 
 If deploying to a debian/Ubuntu server environment, you may follow the [quickstart guide](QUICKSTART.md) to quickly install and initialize the program.
 
@@ -12,7 +12,7 @@ You will need the following things properly installed on your computer.
 
 * A Unix or Linux based operating system
 * [Git](https://git-scm.com/)
-* [Conda 2.7](https://www.anaconda.com/download/) for development or [Native Pip](https://pip.pypa.io/en/stable/installing/) if deploying.
+* [Conda 2.7](https://www.anaconda.com/download/) for development or [Native Pip](https://pip.pypa.io/en/stable/installing/) if deploying to production.
 * [Node.js](https://nodejs.org/) (with NPM)
 * [Java 8](https://java.com/en/download/)
 * [nginx](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/)
@@ -30,9 +30,9 @@ You will need the following things properly installed on your computer.
 * If developing, initialize and acgivate the environment with conda using
     - `conda env create -f environment.yml`
     - `source activate eula-aat`
-* If running for deploy (on debian distributions only), run the quick configure script and skip to Part 2
+* If deploying to production (on debian distributions only), run the quick configure script and skip to Part 2
     - `sudo chmod +x setup.sh && sudo ./setup.sh`
-* For other deploys, install the python environment and continue following
+* For deploys to other environments, install the python environment and continue following
     - `pip install -r requirements.txt` 
 
 Install the punkt package for nltk
@@ -44,7 +44,7 @@ Next, you must install python-boilerpipe.  Be sure to do this in your home direc
 * `cd python-boilerpipe`
 * `pip install -r requirements.txt`
 * `python setup.py install`
-
+this.rootURL
 Once the installation is done, you may delete the python-boilerpipe directory - it is no longer needed.
 * `rm -rf /tmp/python-boilerpipe`
 
@@ -57,7 +57,7 @@ Once the installation is done, you may delete the python-boilerpipe directory - 
 
 Finally, run the nginx and uwsgi config script by typing `./configure.sh` while in the project directory.  This will append two lines to your .bashrc file to set the `analyze_max_threads` and `google_api_key` environment variables.
 
-Note: Choosing the "test" option will just proxy requests from nginx onto your flask and ember debug systems.  They must still be running for the request to serve properly.  Choosing deploy will cause nginx to serve the requests itself.
+Note: Choosing the "test" option will just proxy requests from nginx onto your flask and ember debug systems.  They must still be running for the request to serve properly.  Choosing production will cause nginx to serve the requests itself.
 
 If you wish to run the project immediately, run `source ~/.bashrc` to export the new environment variables set in the configuration script.
 
@@ -78,7 +78,9 @@ A guide to adding heuristics can be found in [DEVGUIDE.md](DEVGUIDE.MD).
 
 ## Running as a Public Web Service (Linux Only)
 
-After installing the application and running the `./configure.sh` script for deploy, set your webserver firewall to accept requests on port 80.
+If you are exporting the static build to another webservice or S3, first edit `app/config/environment.js:16` and replace `this.rootURL` with the address of the API server.  Additionally, remove lines 33-36 in your `nginx.conf` to prevent the server from attemtping to serve the static content itself.
+
+After installing the application and running the `./configure.sh` script for production, set your webserver firewall to accept requests on port 80.
 
 Create a build of the Ember application for nginx to serve by running `./node_modules/ember-cli/bin/ember build`
 

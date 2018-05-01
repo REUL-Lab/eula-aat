@@ -2,7 +2,7 @@
 @import "header";
 @import "navigation";
 
-.app-container {
+.home-container {
   margin-top: 50px;
 }
 
@@ -21,14 +21,36 @@
   margin-top: 10%;
 }
 
+.top-score-view {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+}
+
+.url-display {
+  > a {
+    font-style: italic;
+  }
+  position: relative;
+}
+
 .score-row {
   display: flex;
   flex-flow: row nowrap;
+  height: 120px;
+  margin-top: -10px;
+}
+
+.score-desc {
+  flex: 1 0 auto;
+  max-width: calc(80% - 5px);
+  font-size: 16px;
+  font-weight: bold;
+  padding-left: 20px;
 }
 
 .score-list {
   flex: 1 0 auto;
-  max-width: calc(80% - 5px);
   height: 80px;
 }
 
@@ -73,15 +95,16 @@
     background: red;
   }
 
-  &[score='NR'] {
+  &[score='N/R'] {
     background: darkgrey;
   }
 }
 
 .copyright-text {
-  position: absolute;
+  position: relative;
   left: 0;
   right: 0;
+  bottom: 0;
   margin-left: auto;
   margin-right: auto;
 }
@@ -96,4 +119,13 @@
   margin-right: 15px;
   font-size: 50px;
   font-weight: 700;
+}
+
+.italicized {
+  font-style: italic;
+}
+
+.scorecard-title {
+  font-size:42px;
+  color: #ea4968;
 }

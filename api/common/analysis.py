@@ -1,3 +1,6 @@
+""" Contains all of the anaylsis processes, delegating workers from one eula down to three categories to many heuristics.
+"""
+
 import os, logging, traceback
 from multiprocessing import BoundedSemaphore, Process, Manager
 
@@ -39,24 +42,9 @@ def analyze_eula(eula):
     overall_score = int(sum(map(lambda x: x['weighted_score'], ret_vars.values())) / len(ret_vars))
     grades = ['F', 'D', 'C', 'B', 'A']
 
-    return {'overall_score': overall_score, 'overall_grade': grades[overall_score], 'categories': ret_vars}
+    return {'title': eula.title, 'url': eula.url, 'overall_score': overall_score, 'overall_grade': grades[overall_score], 'categories': ret_vars}
 
 def cat_score(eula, cat, ret_var, thread_semaphore):
-    """Category scoring with thread support
-
-    Args:
-        eula: The EULA object corresponding to an upload or query
-
-    Returns:
-        A dict of values for each score in a heuristic.
-            The first entry should be a 'weighted' attribute between 0 and 5 with 2 degrees of precision.
-            The other entries should be integers between 0 and 5, with 0 being an 'F' grade and 5 being an 'A' grade.
-
-    Examples:
-        >>> print(Substantive.score(my_eula))
-        {'Weighted': 1.5, 'PlainLanguage': 5, 'DataCollection': 0, 'GagwrapClauses': 1}
-
-    """
 
     # Create our own manager for our subprocesses
     ret_vars = Manager().dict()
@@ -98,14 +86,6 @@ def cat_score(eula, cat, ret_var, thread_semaphore):
     }
 
 def heur_score(heur, eula, thread_semaphore, ret_vars):
-    """Proxy method for score(self, eula) that handles threaded return and semaphore access
-
-    Args:            
-        eula: The EULA object corresponding to an upload or query
-        thread_semaphore: The semaphore object to release once process is done
-        ret_vars: the dictionary to place our return values in
-
-    """
     try:
         # Run in a try-catch to prevent runaway threads
         ret_vars[heur] = heur.score(eula)

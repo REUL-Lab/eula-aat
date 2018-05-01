@@ -1,24 +1,32 @@
 <div class='row'>
   <div class='col-sm-8'>
-    <h1>
-      <div class='score score-overall' score='{{model.overallGrade}}'>
-        {{model.overallGrade}}
-      </div>
-      Overall Score
+    <h1 class='scorecard-title'>
+      Scorecard
     </h1>
   </div>
   <div class='col-sm-4 text-right'>
     <br/>
     {{#link-to 'home' class='btn btn-primary'}}
       <i class='fa fa-refresh'>&nbsp;</i>
-      Start Over
+      Back to Beginning
     {{/link-to}}
     &nbsp;
-    {{#link-to 'processing.download' class='btn btn-info'}}
+    {{!-- {{#link-to 'processing.download' class='btn btn-info'}}
       <i class='fa fa-download'>&nbsp;</i>
-      Donwload as PDF
-    {{/link-to}}
+      Donwload Scorecard
+    {{/link-to}} --}}
   </div>
+  <div class='col-sm-8'>
+    <h1 class='top-score-view'>
+      <div class='score score-overall' score='{{model.overallGrade}}'>
+        {{model.overallGrade}}
+      </div>
+      <div class='url-display'>
+        Overall Score for <a href="{{model.url}}">{{model.title}}</a>
+      </div>
+    </h1>
+  </div>
+
 </div>
 <br/>
 <div class='panel panel-default'>
@@ -29,17 +37,22 @@
           <h3 class='score-header score-header-top'>{{heuristic.name}}</h3>
           <br/>
           <div class='score-row'>
-            <div class='score' score='{{heuristic.grade}}'>
-              {{heuristic.grade}}
+            <div>
+              <div class='score' score='{{heuristic.grade}}'>
+                {{heuristic.grade}}
+              </div>
             </div>
-            <ul class='score-list'>
-              {{#each heuristic.description as |bullet|}}
-                <li>{{bullet}}</li>
-              {{/each}}
-              <p class='text-left score-readmore'>
-                {{#link-to (heuristic-path heuristic.name)}}<a>Click to Read More</a>{{/link-to}}
-              </p>
-            </ul>
+              <div>
+                <ul class='score-desc'>
+                  {{heuristic.description}}
+                </ul>
+                <ul class='score-list'>
+                  {{#each heuristic.feedback as |bullet|}}
+                    <li>{{bullet}}</li>
+                  {{/each}}
+
+                </ul>
+            </div>
           </div>
           <br/>
           <br/>

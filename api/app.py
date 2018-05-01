@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import os
+import os, logging, sys
 
 from flask import Flask, Blueprint, g
 from flask_cors import CORS
@@ -25,4 +25,10 @@ api.add_resource(results.Results, '/api/results/<string:result_id>')
 api.add_resource(status.Status, '/api/status')
 
 if __name__ == '__main__':
+    # Run with debug aka print all
     app.run(debug=True)
+else:
+    # Only allow error messages
+    logging.getLogger().setLevel(logging.ERROR)
+    # Supress the extractor's comments
+    sys.stdout = open(os.devnull, 'w')

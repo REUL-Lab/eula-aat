@@ -2,7 +2,7 @@
 """
 
 from models.category import Category
-from models.heuristics import typeconventions, easeofnavigation, documentlength
+from models.heuristics import typeconventions, documentlength
 
 class Formal(Category):
     
@@ -10,6 +10,5 @@ class Formal(Category):
     def get_heuristics():
         return {
             typeconventions.TypeConventions: 1,
-            easeofnavigation.EaseOfNavigation: 1,
-            documentlength.DocumentLength: 1
+            documentlength.DocumentLength: 5
         }
