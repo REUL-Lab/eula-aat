@@ -17,11 +17,13 @@
     {{/link-to}} --}}
   </div>
   <div class='col-sm-8'>
-    <h1>
+    <h1 class='top-score-view'>
       <div class='score score-overall' score='{{model.overallGrade}}'>
         {{model.overallGrade}}
       </div>
-      Overall Score for <i>{{model.title}}</i>
+      <div class='url-display'>
+        Overall Score for <a href="{{model.url}}">{{model.title}}</a>
+      </div>
     </h1>
   </div>
 
@@ -39,9 +41,6 @@
               <div class='score' score='{{heuristic.grade}}'>
                 {{heuristic.grade}}
               </div>
-              <p class='text-left score-readmore'>
-                {{#link-to (heuristic-path heuristic.name)}}<a>Show Detail</a>{{/link-to}}
-              </p>
             </div>
               <div>
                 <ul class='score-desc'>

@@ -33,6 +33,6 @@ class PlainLanguage(Heuristic):
             'grade' : grade,
             'score': score,
             'max': 4,
-            'feedback': ['The reading level of your EULA is grade {0}'.format(int(rl)),
+            'feedback': ['The reading level of this EULA is grade {0}'.format(int(rl)),
                 'The average American has a reading level of grade 8']
         }

@@ -20,7 +20,7 @@ Router.map(function() {
   this.route('processing', function() {
     this.route('download');
     this.route('eula');
-    this.route('pdf');
+    this.route('upload')
   });
 });
 

@@ -13,16 +13,16 @@ grade_ratios = {
 caps_grading = {
     0: (lambda x: x >= .5 and x < 1),   # Between 50% and 100% caps
     1: (lambda x: x >= .3 and x < .5),  # Between 30% and 50% caps
-    2: (lambda x: x >= .1 and x < .3),  # Between 10% and 30% caps
+    3: (lambda x: x >= .1 and x < .3),  # Between 10% and 30% caps
     4: (lambda x: x < .1)               # Less than 10% caps
 }
 
 # Human-feedback for caps grading
 caps_humanized = {
-    0: 'Your EULA uses many uppercase words',
-    1: 'Your EULA uses some uppercase words',
-    2: 'Your EULA has a few uppercase words',
-    4: 'Your EULA has few uppercase words'
+    0: 'This EULA uses many uppercase words',
+    1: 'This EULA uses some uppercase words',
+    3: 'This EULA has a few uppercase words',
+    4: 'This EULA has few uppercase words'
 }
 
 # Count of headings to consider in calculation (if it shows up less than this, don't count it)
@@ -36,15 +36,15 @@ headings_grading = {
 
 # Human-feedback for heading
 headings_humanized = {
-    0: 'Your EULA contains very mixed headings',
-    2: 'Your EULA contains mixed headings',
-    4: 'Your EULA has unified headings'
+    0: 'This EULA contains very mixed headings',
+    2: 'This EULA contains mixed headings',
+    4: 'This EULA has unified headings'
 }
 
 #Human feedback for serif
 serif_humanized = {
-    'True': 'Your EULA uses a serif font',
-    'False': 'Your EULA does not use a serif font'
+    'True': 'This EULA uses a serif font',
+    'False': 'This EULA does not use a serif font'
 }
 
 # Formal 1

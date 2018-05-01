@@ -43,7 +43,6 @@ class Fetch(Resource):
             for item, cleanup in cleanup_tasks.iteritems():
                 cleanup()
 
-
         # Store results in mongodb and return the identifier for lookup
         return str(db.get_db().results.insert_one(res).inserted_id)
 
@@ -57,7 +56,7 @@ class Upload(Resource):
         vals = parser.parse_args()
 
         if vals['doctype'] == 'txt':
-            uploaded_eula = eula.EULA(text=vals['contents'].read(), url=vals['contents'].filename)
+            uploaded_eula = eula.EULA(text=vals['contents'].read(), title=vals['contents'].filename)
         else:
             abort(400, message='doctype string not recognized value')
 

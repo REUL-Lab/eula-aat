@@ -63,9 +63,9 @@ class NotifyChangesInPolicy(Heuristic):
             foundnotification = False
 
         if date is not None:
-            feedback.append("Your EULA states \"{0}\"".format(date.group(0)))
+            feedback.append("This EULA states \"{0}\"".format(date.group(0)))
         else:
-            feedback.append("The tool did not find a last-modified date in your EULA")
+            feedback.append("The tool did not find a last-modified date in this EULA")
 
         retvars = {
             'name': name,

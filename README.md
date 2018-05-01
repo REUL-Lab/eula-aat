@@ -1,36 +1,10 @@
 # EULA Automated Analysis Tool
 
-End-User Licensing Agreements, or EULAs, govern all of our interactions with modern technology, but few people understand their legal implications. The Automated Analysis Tool quickly and consistently assesses EULAs based on readability, presentation, and accessibility. This allows researchers to easily break down and analyze EULAs, promote public understanding, and encourages the creation of more ethical and readable licenses.
-
-
-### Release Notes: Version 1.0
-
-## Features
-* EULA URL parsing and submission
-* Plain text file processing and submission
-* Counts words in EULA
-* Assesses reading level of EULA (Flesch-Kincaid, K-12)
-* Finds if a EULA has a clearly stated last notified date
-* Assesses basic type conventions (serif font, consistent headings)
-* aggregates scores
-
-## Bug Fixes
-
-* Fixed bug that prevented cross communication between front and back end
-* Fixed front end formatting of results page (missalignment of elements)
-
-## Known Bugs
-
-* Processing takes a long time (upwards of 10-30 seconds).
-* mobile readability heuristic does not function correctly.
-* mobile accessibiliy heuristic does not function correctly.
-* Notify Changes in Policy sometimes does not find a last updated date, even if one is present.
-* Type conventions is
-
+The EULA Automated Analysis Tool is a web application that retrieves, parses, and analyzes EULA documents.  These documents can either be uploaded or retrieved from a publicly accessible URL.  The tool evaluates EULAs on a set of heuristics defined within the project.
 
 ### Quickstart for Deploy
 
-If deploying to a debian/Ubuntu server environment, you may follow the [quickstart guide](quickstart.md) to automatically deploy.
+If deploying to a debian/Ubuntu server environment, you may follow the [quickstart guide](QUICKSTART.md) to quickly install and initialize the program.
 
 ## Prerequisites
 
@@ -40,13 +14,12 @@ You will need the following things properly installed on your computer.
 * [Git](https://git-scm.com/)
 * [Conda 2.7](https://www.anaconda.com/download/) for development or [Native Pip](https://pip.pypa.io/en/stable/installing/) if deploying.
 * [Node.js](https://nodejs.org/) (with NPM)
-* [Ember CLI](https://ember-cli.com/) via NPM
 * [Java 8](https://java.com/en/download/)
 * [nginx](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/)
 * [uwsgi](http://uwsgi-docs.readthedocs.io/en/latest/Install.html)
 * [mongodb-dameon](https://docs.mongodb.com/manual/installation/)
 * [Google Chrome](https://google.com/chrome)
-* [The google chromedriver for your system](https://sites.google.com/a/chromium.org/chromedriver/downloads), and available in your path.
+* [The Google chromedriver for your system](https://sites.google.com/a/chromium.org/chromedriver/downloads), and available in your path.
 * The C++ compiler for your system.  For MacOS, this is included in XCode via `xcode-select --install`.  For Linux systems, the package is `g++` for Debian systems and `gcc-c++` for Fedora systems.
 
 ## Installation
@@ -54,13 +27,13 @@ You will need the following things properly installed on your computer.
 ### Part 1 (Back-end)
 * `git clone https://github.com/REUL-Lab/eula-aat.git` this repository
 * `cd eula-aat`
-* If developing, initialize and activate the environment with conda using
+* If developing, initialize and acgivate the environment with conda using
     - `conda env create -f environment.yml`
     - `source activate eula-aat`
 * If running for deploy (on debian distributions only), run the quick configure script and skip to Part 2
     - `sudo chmod +x setup.sh && sudo ./setup.sh`
 * For other deploys, install the python environment and continue following
-    - `pip install -r requirements.txt`
+    - `pip install -r requirements.txt` 
 
 Install the punkt package for nltk
 * `python -c 'import nltk; nltk.download("punkt")'`
@@ -88,7 +61,7 @@ Note: Choosing the "test" option will just proxy requests from nginx onto your f
 
 If you wish to run the project immediately, run `source ~/.bashrc` to export the new environment variables set in the configuration script.
 
-## Running for Debug
+## Running for Further Development
 
 Run the flask service by activating the `eula-aat` environment as described above then running
 * `python api/app.py` from the root directory
@@ -99,9 +72,11 @@ Run the flask service by activating the `eula-aat` environment as described abov
     - When done, stop the mongodb daemon by runnning `mongod --shutdown`
 
 Run the ember service by navigating to the `/app` directory then running
-* ember serve
+* `ember serve`
 
-## Running for Deploy (Linux Only)
+A guide to adding heuristics can be found in [DEVGUIDE.md](DEVGUIDE.MD).
+
+## Running as a Public Web Service (Linux Only)
 
 After installing the application and running the `./configure.sh` script for deploy, set your webserver firewall to accept requests on port 80.
 
@@ -109,7 +84,7 @@ Create a build of the Ember application for nginx to serve by running `./node_mo
 
 Run the following command to initialize nginx as a service so it will start with your server:
     - `sudo systemctl enable nginx`
-
+   
 Configure mongodb as a service:
     - `sudo systemctl enable mongod`
 
