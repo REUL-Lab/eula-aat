@@ -46,6 +46,7 @@ Once your heuristic has been written, it must be added to the dispatcher in orde
         notifychangesinpolicy.NotifyChangesInPolicy: 3,
         mobilereadability.MobileReadability: 5,
         exampleheuristic.ExampleHeuristic: x
-    }```
+    }
+```
 
 where `x` would be the value-relative weight for the heuristic.  These values do not have to be summed, but are used to weigh heuristics against one another when calculating the final score.  Ensure that you import your heuristic at the top of the file.
