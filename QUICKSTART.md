@@ -14,6 +14,7 @@ After ensuring that your directory is accessible, run the configuration script a
 * name for nginx config file: `nginx.conf`
 * directory for www directory: `/var/www` 
 * uwsgi configuration location: `/etc/uwsgi/apps-enabled`
+* number of uwsgi worker processes: `8`
 * uid of service user: `www-data`
 * gid of service usergroup: `www-data`
 * directory of project accessible by your service worker: The location of your repository clone, the recommended path is `/usr/share/eula-aat`
