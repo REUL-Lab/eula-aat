@@ -6,7 +6,8 @@ The EULA Automated Analysis tool was designed to allow maximum interoperability 
 
 All heuristics are located in `api/models/heuristics/`.  They fit the form of the following code skeleton:
 
-```from models.heuristic import Heuristic
+```
+from models.heuristic import Heuristic
 
 class ExampleHeuristic(Heuristic):
     
@@ -40,7 +41,8 @@ Heuristics are run in a threaded environment with built-in error handling.  If y
 
 Once your heuristic has been written, it must be added to the dispatcher in order to be run.  The dispatcher uses values in the `formal.py`, `procedural.py` and `substantive.py` files in the `api/models/categories/` directory.  Add the heuristic like follows
 
-```def get_heuristics():
+```
+def get_heuristics():
     return {
         mobileaccessibility.MobileAccessibility: 2,
         notifychangesinpolicy.NotifyChangesInPolicy: 3,
