@@ -18,7 +18,8 @@ class ExampleHeuristic(Heuristic):
             'description': description,
             'score'      : score,
             'max'        : 4
-        }```
+        }
+```
 
 ### Using the eula object
 A `eula` object contains the following properties:
