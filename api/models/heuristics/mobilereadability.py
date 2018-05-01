@@ -66,16 +66,14 @@ class MobileReadability(Heuristic):
 
         # Make sure test ran properly
         if content['testStatus']['status'] != 'COMPLETE':
-            ret_vals['reason'] = 'Could not connect to Google APIs (NOKEY)'
-            ret_vals['score'] = -1
-            ret_vals['grade'] = 'N/R'
-            return ret_vals
+            raise 'google API returned status {0}'.format(content['testStatus']['status'])
 
         # If there are no issues or no reason to deduct (might be redundent, but is safer way to reference api), return our score
         if content['mobileFriendliness'] == "MOBILE_FRIENDLY" or 'mobileFriendlyIssues' not in content:
             ret_vals['reason'] = 'Could not connect to Google APIs (NOKEY)'
             ret_vals['score'] = 4
             ret_vals['grade'] = grades[4]
+            ret_vals['feedback'].append(humanized_issues['NO_ISSUES'])
             return ret_vals
 
         # If there are issues
@@ -90,9 +88,6 @@ class MobileReadability(Heuristic):
             for issue in issues:
                 num = num - grade_ratios[str(issue)]
                 ret_vals['feedback'].append(humanized_issues[str(issue)])
-
-            if len(ret_vals['feedback']) == 0:
-                ret_vals['feedback'].append(humanized_issues['NO_ISSUES'])
 
             # Multiply score by 4 for our even representation
             ret_vals['score'] = int(round(4 * num / denom))

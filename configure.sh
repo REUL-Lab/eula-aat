@@ -22,13 +22,13 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     de_service_group="www"
 fi
 
-while [[ "$env_type" != "dev" && "$env_type" != "deploy" ]]
+while [[ "$env_type" != "dev" && "$env_type" != "prod" ]]
 do
-    read -p "Environment type (dev/deploy): " env_type
+    read -p "Environment type (dev/prod): " env_type
     env_type=${env_type:-$de_env_type}
 done
 
-if [[ "$env_type" == "deploy" && "$(whoami)" != "root" ]]; then
+if [[ "$env_type" == "prod" && "$(whoami)" != "root" ]]; then
     echo "Deploy configuration requires root privileges"
     exit
 fi
