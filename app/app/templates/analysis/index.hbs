@@ -22,7 +22,12 @@
         {{model.overallGrade}}
       </div>
       <div class='url-display'>
-        Overall Score for <a href="{{model.url}}">{{model.title}}</a>
+        Overall Score for
+        {{#if model.url}}
+          <a href="{{model.url}}">{{model.title}}</a>
+        {{else}}
+          <i>{{model.title}}</i>
+        {{/if}}
       </div>
     </h1>
   </div>

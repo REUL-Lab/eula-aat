@@ -6,10 +6,6 @@ import { inject as service } from '@ember/service';
 export default Controller.extend({
   ajax: service(),
   urlToFetch: null,
-  init: function () {
-    this._super();
-    this.set('fileName', null);
-  },
   actions: {
     chooseFile() {
       $('.file-upload-input').click()
@@ -33,9 +29,12 @@ export default Controller.extend({
         data: formData
       });
 
+      this.transitionToRoute('processing.eula');
+
       try {
         request.then((idOfReport) => {
           if (typeof idOfReport === 'string') {
+            this.set('fileName', null);
             this.transitionToRoute(`/analysis/${idOfReport}`);
           } else {
             this.transitionToRoute('/');
