@@ -13,7 +13,7 @@ module.exports = function(environment) {
       }
     },
     APP: {
-      apiDomain: @APIDOMAIN@
+      apiDomain: '@APIDOMAIN@'
     }
   };
 
