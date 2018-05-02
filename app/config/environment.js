@@ -13,7 +13,7 @@ module.exports = function(environment) {
       }
     },
     APP: {
-      apiDomain: "localhost:8080"
+      apiDomain: @APIDOMAIN@
     }
   };
 

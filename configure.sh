@@ -39,9 +39,9 @@ host=${host:-$de_host}
 host=${host%/}
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    sed -i '' "s:@APIDOMAIN@:${host}:g" "./app/congig/environment.js"
+    sed -i '' "s:@APIDOMAIN@:${host}:g" "./app/config/environment.js"
 else
-    sed -i "s:@APIDOMAIN@:${host}:g" "./app/congig/environment.js"
+    sed -i "s:@APIDOMAIN@:${host}:g" "./app/config/environment.js"
 fi
 
 read -p "nginx config location [${de_nginx_loc}]: " nginx_loc
