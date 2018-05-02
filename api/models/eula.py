@@ -22,11 +22,12 @@ class EULA:
         self.mobile_driver = mobile_driver
 
         # Set title to page title and format for length.  URLs stay full length
-        if title is not None and title is not '' and title is not ' ':
-            if len(title) > 40:
-                self.title = title[:37] + '...'
-            else:
-                self.title = title
-        else:
-            self.title = url
+        # Build the string to remove invisible characters and ensure it's not just spaces
+        title = ''.join(char for char in title if char in printable).strip()
+        if title is None or title is '':
+            title = url
 
+        if len(title) > 40:
+            self.title = title[:37] + '...'
+        else:
+            self.title = title
