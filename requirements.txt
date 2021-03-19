@@ -10,7 +10,7 @@ Flask-RESTful==0.3.6
 Flask-WTF==0.14.2
 idna==2.6
 itsdangerous==0.24
-Jinja2==2.10
+Jinja2==2.11.3
 JPype1==0.6.2
 jusText==2.2.0
 lxml==4.1.1
