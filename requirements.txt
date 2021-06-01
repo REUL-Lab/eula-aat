@@ -25,7 +25,7 @@ ReadabilityCalculator==0.2.36
 requests==2.18.4
 selenium==3.9.0
 six==1.11.0
-urllib3==1.22
+urllib3==1.26.5
 uWSGI==2.0.16
 Werkzeug==0.14.1
 WTForms==2.1
